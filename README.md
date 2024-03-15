@@ -1,26 +1,26 @@
-# Panzer-Wireless-Gauge-VB6
+# Panzer-Network-Gauge-VB6
  
-  A FOSS Wireless Gauge VB6 WoW64 Widget for Reactos, XP, Win7, 8 and 10/11+.
+  A FOSS Network Gauge VB6 WoW64 Widget for Reactos, XP, Win7, 8 and 10/11+.
  
- My current VB6/RC6 PSD program being worked upon now, about 70% complete, awaiting, new code to extract the wi-fi signal strength percentage, smooth rotation to the signal strength pointer, testing on Windows XP and Win7 32bit and some multi-monitor checking, completion of the CHM help file and the creation of the setup.exe. This Panzer widget is based upon the Yahoo/Konfabulator widget of the same visual design and very similar operation.
+ My current VB6/RC6 PSD program being worked upon now, about 75% complete, awaiting, new code to calculate the network bandwidth percentage, testing on Windows XP and Win7 32bit and some multi-monitor checking, completion of the CHM help file and the creation of the setup.exe. This Panzer widget is based upon the Yahoo/Konfabulator widget of the same visual design and very similar operation.
 
  Why VB6? Well, with a 64 bit, modern-language improvement upgrade on the way with 100% compatible TwinBasic coupled with support for transparent PNGs via RC/Cairo, VB6 code has an amazing future.
 
 ![vb6-logo-350](https://github.com/yereverluvinunclebert/Panzer-CPU-Gauge-VB6/assets/2788342/39e2c93f-40a5-4c47-8c23-d8ce7c747b10)
 
  I created as a variation of the previous gauges I had previously created for the World of Tanks and War Thunder 
- communities. The Panzer Wireless Gauge widget is an attractive dieselpunk VB6 widget for your desktop. 
+ communities. The Panzer Network Gauge widget is an attractive dieselpunk VB6 widget for your desktop. 
  Functional and gorgeous at the same time. The graphics are my own, I took original inspiration from a clock face by Italo Fortana combining it with an aircraft gauge. It is all my code with some help from the chaps at VBForums (credits given). 
   
-The Panzer Wireless Gauge VB6 is a useful utility displaying the wireless strength of all wi-fi network devices available to your system but it does so in a dieselpunk fashion on your desktop. This Widget is a moveable widget that you can move anywhere around the desktop as you require. 
+The Panzer Network Gauge VB6 is a useful utility displaying the Network strength of all wi-fi network devices available to your system but it does so in a dieselpunk fashion on your desktop. This Widget is a moveable widget that you can move anywhere around the desktop as you require. 
 
- ![vb6PanzerWirelessPhoto1440x](https://github.com/yereverluvinunclebert/Panzer-Wireless-Gauge-VB6/assets/2788342/7e182a87-baf5-4244-bcb9-769487bdfb62)
+ ![vb6PanzerNetworkPhoto1440x](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/7e182a87-baf5-4244-bcb9-769487bdfb62)
 
  This widget can be increased in size, animation speed can be changed, 
  opacity/transparency may be set as to the users discretion. The widget can 
  also be made to hide for a pre-determined period.
  
-![Default](https://github.com/yereverluvinunclebert/Panzer-Wireless-Gauge-VB6/assets/2788342/bd00835a-b72e-4d8c-929b-faa9291d749a)
+![Default](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/bd00835a-b72e-4d8c-929b-faa9291d749a)
 
  Right clicking will bring up a menu of options. Double-clicking on the widget will cause a personalised Windows application to 
  fire up. The first time you run it there will be no assigned function and so it 
@@ -29,7 +29,7 @@ The Panzer Wireless Gauge VB6 is a useful utility displaying the wireless streng
  windows. Mouse hover over the widget and press CTRL+mousewheel up/down to resize. It works well on Windows XP 
  to Windows 11.
  
-![panzergauge-help](https://github.com/yereverluvinunclebert/Panzer-Wireless-Gauge-VB6/assets/2788342/126d13a4-f726-40e7-b388-f9c2d3353f49)
+![panzergauge-help](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/126d13a4-f726-40e7-b388-f9c2d3353f49)
 
  The Panzer CPU Gauge VB6 gauge is Beta-grade software, under development, not yet 
  ready to use on a production system - use at your own risk.
@@ -55,7 +55,7 @@ The Panzer Wireless Gauge VB6 is a useful utility displaying the wireless streng
  enhancements and contributions will be gratefully received if you choose to 
  contribute.
 
-![security](https://github.com/yereverluvinunclebert/Panzer-Wireless-Gauge-VB6/assets/2788342/fc73654d-5eab-4c06-9384-34c0a823399c)
+![security](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/fc73654d-5eab-4c06-9384-34c0a823399c)
 
  BUILD: The program runs without any Microsoft plugins.
  
@@ -207,7 +207,7 @@ The Panzer Wireless Gauge VB6 is a useful utility displaying the wireless streng
  With regard to the commercial use of incorporated images, permission and a 
  licence would need to be obtained from the original owner and creator, ie. me.
  
-![about](https://github.com/yereverluvinunclebert/Panzer-Wireless-Gauge-VB6/assets/2788342/5f2c76ca-9941-4390-8140-c0759d6f49e5)
+![about](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/5f2c76ca-9941-4390-8140-c0759d6f49e5)
 
 ![Panzer-CPU-Gauge-onDesktop](https://github.com/yereverluvinunclebert/Panzer-CPU-Gauge-VB6/assets/2788342/f2e06e77-77ee-46fb-840d-e14f96b4e0a5)
 
