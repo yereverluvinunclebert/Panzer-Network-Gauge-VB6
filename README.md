@@ -19,8 +19,8 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
  This widget can be increased in size, animation speed can be changed, 
  opacity/transparency may be set as to the users discretion. The widget can 
  also be made to hide for a pre-determined period.
- 
-![Default](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/a42dbc72-f648-4fbb-8426-990f710414f1)
+
+![Default](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/5e594e79-c540-4692-94e0-7813c04ce83a)
 
  Right clicking will bring up a menu of options. Double-clicking on the widget will cause a personalised Windows application to 
  fire up. The first time you run it there will be no assigned function and so it 
@@ -29,7 +29,7 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
  windows. Mouse hover over the widget and press CTRL+mousewheel up/down to resize. It works well on Windows XP 
  to Windows 11.
  
-![panzer-clock-help-750](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/596b5a60-9d93-4d32-8993-c67f8e20d7fd)
+![panzer-clock-help-750](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/e4baa8f6-bb98-480f-a184-f7f5144120ad)
 
  The Panzer CPU Gauge VB6 gauge is Beta-grade software, under development, not yet 
  ready to use on a production system - use at your own risk.
@@ -55,7 +55,7 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
  enhancements and contributions will be gratefully received if you choose to 
  contribute.
 
-![security](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/f899d6e3-d2b4-4e74-8f85-a455f298a228)
+![security](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/8e8df682-010a-4960-8f5d-d51138eb1dcc)
 
  BUILD: The program runs without any Microsoft plugins.
  
@@ -206,8 +206,8 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
  original artist using my name or one of my pseudonyms and a link to my site. 
  With regard to the commercial use of incorporated images, permission and a 
  licence would need to be obtained from the original owner and creator, ie. me.
- 
-![about](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/c71113d2-27f5-4fc0-ac10-2e705c0fcb66)
+
+![about](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/19695221-db7f-4f13-ac64-fb426ae09afb)
 
 
 ![Panzer-CPU-Gauge-onDesktop](https://github.com/yereverluvinunclebert/Panzer-CPU-Gauge-VB6/assets/2788342/f2e06e77-77ee-46fb-840d-e14f96b4e0a5)
