@@ -5,8 +5,8 @@ DONE
 ' rename all files
 ' tooltips, text all converted justclock, just clock, globe
 ' unwanted time controls, code and variables removed from prefs
-' test cpu percent extraction using registry - failure
-' cpu percent extraction using API
+' test bandwidth percent extraction using registry - failure
+' bandwidth percent extraction using API
 ' gauge digital displays
 ' pointer rotation
 ' icons created and assigned to forms
@@ -23,24 +23,23 @@ DONE
 ' sampling interval var validation - done
 ' sampling interval var reading/writing - done
 
-' test .js code and extract the pertinent code that attaches to WMI and replicate
-' lamps added and lit at high temps
-' conversion from C to F
-' switch face from C to F
+' lamps added and lit at low bandwidth - done
 
-' balloon tooltips
+' balloon tooltips - done
+' test autostart - done
+' smooth pointer - flick/smooth - done
+' prefs setfocus - done
 
 ' -oOo-
 
 TODO
 
+
 ' more information signal noise &c
 
 ' html help and images update
 ' chm help built
-' test autostart
 
-' smooth pointer - flick/smooth
 
 ' add second monitor - wip find cable!
 
@@ -55,6 +54,8 @@ TODO
 ' adjustFormPositionToCorrectMonitor - licence form
 ' adjustFormPositionToCorrectMonitor - about form
 ' adjustFormPositionToCorrectMonitor - help form
+
+' END in unloadAllForms ' on 32bit Windows this causes a crash? - test.
 
 ' setup2go create setup.exe
 

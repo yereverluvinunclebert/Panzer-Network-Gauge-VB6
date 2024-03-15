@@ -164,7 +164,7 @@ Private Sub gaugeForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                 If PzGEnableBalloonTooltips = "1" Then CreateToolTip gaugeForm.hwnd, "This button opens the one-page help file for this widget. There is a further detailed CHM help file available from the right-click menu that contains all the information that you need to run this widget.", _
                      TTIconInfo, widgetName & " Help Button Help", , , , True
             Case Else
-                If PzGEnableBalloonTooltips = "1" Then CreateToolTip gaugeForm.hwnd, "Network: . " & gblNetworkIDArray(overlayWidget.thisNetworkNo) _
+                If PzGEnableBalloonTooltips = "1" Then CreateToolTip gaugeForm.hwnd, "Network Adapter: " & gblNetworkIDArray(overlayWidget.thisNetworkNo) _
                     & vbCrLf & "Signal Level: " & " gblNetworkPercentArray(overlayWidget.thisNetworkNo)" & "%" _
                     & vbCrLf & "Noise Level: " & "db" _
                     & vbCrLf & "" _
