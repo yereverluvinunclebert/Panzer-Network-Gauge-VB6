@@ -14,13 +14,13 @@
   
 The Panzer Network Gauge VB6 is a useful utility displaying the Network strength of all wi-fi network devices available to your system but it does so in a dieselpunk fashion on your desktop. This Widget is a moveable widget that you can move anywhere around the desktop as you require. 
 
- ![vb6PanzerNetworkPhoto1440x](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/7e182a87-baf5-4244-bcb9-769487bdfb62)
+![Panzer-network-Gauge-onDesktop](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/914b9c45-5f6c-4454-8e3c-dc0082ef67e2)
 
  This widget can be increased in size, animation speed can be changed, 
  opacity/transparency may be set as to the users discretion. The widget can 
  also be made to hide for a pre-determined period.
  
-![Default](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/bd00835a-b72e-4d8c-929b-faa9291d749a)
+![Default](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/a42dbc72-f648-4fbb-8426-990f710414f1)
 
  Right clicking will bring up a menu of options. Double-clicking on the widget will cause a personalised Windows application to 
  fire up. The first time you run it there will be no assigned function and so it 
@@ -29,7 +29,7 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
  windows. Mouse hover over the widget and press CTRL+mousewheel up/down to resize. It works well on Windows XP 
  to Windows 11.
  
-![panzergauge-help](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/126d13a4-f726-40e7-b388-f9c2d3353f49)
+![panzer-clock-help-750](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/596b5a60-9d93-4d32-8993-c67f8e20d7fd)
 
  The Panzer CPU Gauge VB6 gauge is Beta-grade software, under development, not yet 
  ready to use on a production system - use at your own risk.
@@ -55,7 +55,7 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
  enhancements and contributions will be gratefully received if you choose to 
  contribute.
 
-![security](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/fc73654d-5eab-4c06-9384-34c0a823399c)
+![security](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/f899d6e3-d2b4-4e74-8f85-a455f298a228)
 
  BUILD: The program runs without any Microsoft plugins.
  
@@ -207,7 +207,8 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
  With regard to the commercial use of incorporated images, permission and a 
  licence would need to be obtained from the original owner and creator, ie. me.
  
-![about](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/5f2c76ca-9941-4390-8140-c0759d6f49e5)
+![about](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/c71113d2-27f5-4fc0-ac10-2e705c0fcb66)
+
 
 ![Panzer-CPU-Gauge-onDesktop](https://github.com/yereverluvinunclebert/Panzer-CPU-Gauge-VB6/assets/2788342/f2e06e77-77ee-46fb-840d-e14f96b4e0a5)
 
