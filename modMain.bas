@@ -145,8 +145,9 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' get the list of Network and the count
     Call getgblNetworkArray(gblNetworkIDArray(), gblNetworkCount)
     
+    Call getGblNetworkStats
+    
     Debug.Print gblNetworkIDArray(0)
-    'Debug.Print gblNetworkPercentArray(0)
     Debug.Print gblNetworkCount
     
     ' run the functions that are also called at reload time.
@@ -526,7 +527,7 @@ Public Sub adjustMainControls()
 
     'If PzGPercentNetwork <> "" Then overlayWidget.thisNetwork = PzGPercentNetwork
     
-    overlayWidget.thisNetworkNo = Val(PzGCurrentNetwork)
+    overlayWidget.thisNetworkNo = Val(PzGCurrentAdapter)
     overlayWidget.thisOpacity = Val(PzGOpacity)
     overlayWidget.samplingInterval = Val(PzGSamplingInterval)
     
@@ -594,7 +595,7 @@ Public Sub readSettingsFile(ByVal location As String, ByVal PzGSettingsFile As S
         PzGGaugeFunctions = fGetINISetting(location, "gaugeFunctions", PzGSettingsFile)
         PzGPointerAnimate = fGetINISetting(location, "pointerAnimate", PzGSettingsFile)
         PzGSamplingInterval = fGetINISetting(location, "samplingInterval", PzGSettingsFile)
-        PzGCurrentNetwork = fGetINISetting(location, "currentNetwork", PzGSettingsFile)
+        PzGCurrentAdapter = fGetINISetting(location, "currentAdapter", PzGSettingsFile)
         PzGNetworkTraffic = fGetINISetting(location, "networkTraffic", PzGSettingsFile)
         
 '        PzGClockFaceSwitchPref = fGetINISetting(location, "clockFaceSwitchPref", PzGSettingsFile)
@@ -697,7 +698,7 @@ Public Sub validateInputs()
         If PzGPointerAnimate = vbNullString Then PzGPointerAnimate = "0"
         If PzGSamplingInterval = vbNullString Then PzGSamplingInterval = "3"
         
-        If PzGCurrentNetwork = vbNullString Then PzGCurrentNetwork = "0"
+        If PzGCurrentAdapter = vbNullString Then PzGCurrentAdapter = "0"
         If PzGNetworkTraffic = vbNullString Then PzGNetworkTraffic = "0"
         
         'If PzGClockFaceSwitchPref = vbNullString Then PzGClockFaceSwitchPref = "0"

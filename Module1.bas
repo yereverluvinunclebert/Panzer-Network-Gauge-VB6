@@ -292,7 +292,7 @@ Public PzGGaugeFunctions As String
 'Public PzGAnimationInterval As String
 Public PzGPointerAnimate As String
 Public PzGSamplingInterval As String
-Public PzGCurrentNetwork As String
+Public PzGCurrentAdapter As String
 Public PzGNetworkTraffic As String
 
 
@@ -439,8 +439,8 @@ Public msgBoxADynamicSizingFlg As Boolean
 Public gblNetworkIDArray() As String
 Public gblNetworkPercentArray() As Integer
 Public gblNetworkCount As Integer
-
-Public m_objIpHelper As CIpHelper
+'
+'Public m_objIpHelper As CIpHelper
 
 '---------------------------------------------------------------------------------------
 ' Procedure : fFExists
@@ -2762,9 +2762,9 @@ Public Function ArrayString(ParamArray tokens()) As String()
     On Error GoTo ArrayString_Error
 
     ReDim Arr(UBound(tokens)) As String
-    Dim i As Long
-    For i = 0 To UBound(tokens)
-        Arr(i) = tokens(i)
+    Dim I As Long
+    For I = 0 To UBound(tokens)
+        Arr(I) = tokens(I)
     Next
     ArrayString = Arr
 
@@ -2786,21 +2786,38 @@ End Function
 ' Date: 13/01/2024
 ' ----------------------------------------------------------------
 Public Sub getgblNetworkArray(ByRef thisArray() As String, ByRef thisNetworkCount As Integer)
-    
-    'Dim thisArray() As String
-    Dim i As Integer: i = 0
-    'Dim networkCount As Integer: networkCount = 0
-    Set m_objIpHelper = New CIpHelper
-    
+
+    Dim I As Integer: I = 0
+    Dim WQL As String: WQL = vbNullString
+    Dim oWMI As Object
+    Dim instances As Object
+    Dim instance As Object
+
     On Error GoTo getGblNetworkArray_Error
     
-    thisNetworkCount = m_objIpHelper.Interfaces.Count
-    ReDim thisArray(thisNetworkCount)
+    'Get base WMI object, "." means computer name (local)
+    Set oWMI = GetObject("WINMGMTS:\\.\ROOT\cimv2")
     
-    For i = 1 To thisNetworkCount
-        thisArray(i - 1) = m_objIpHelper.Interfaces(i).InterfaceDescription & " "
-        Debug.Print (thisArray(i - 1))
-    Next i
+    'Create a WMI query text
+'    WQL = "Select * from Win32_PerfRawData_Tcpip_NetworkInterface Where Name=""Intel[R] Ethernet Connection [2] I219-V"""
+'
+'    'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface
+'    Set Instances = oWMI.ExecQuery(WQL)
+    
+    'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface - ALL instances of this class and derived classes
+    Set instances = oWMI.InstancesOf("Win32_PerfRawData_Tcpip_NetworkInterface", 1)
+    
+    thisNetworkCount = instances.Count
+    ReDim thisArray(thisNetworkCount)
+
+    For Each instance In instances
+      Debug.Print instance.Name 'or other property name
+      thisArray(I) = instance.Name
+'      Debug.Print "BytesReceivedPersec", Instance.BytesReceivedPersec 'or other property name
+'      Debug.Print "BytesSentPerSec", Instance.BytesSentPerSec 'or other property name
+'      Debug.Print "CurrentBandwidth", Instance.CurrentBandwidth 'or other property name
+      I = I + 1
+    Next
         
     On Error GoTo 0
     Exit Sub
@@ -2811,3 +2828,97 @@ getGblNetworkArray_Error:
 
 End Sub
 
+
+' ----------------------------------------------------------------
+' Procedure Name: getGblNetworkArray
+' Purpose: Obtains the names of all the Networks from the system
+' Procedure Kind: sub
+' Procedure Access: public
+' Author: beededea
+' Date: 13/01/2024
+' ----------------------------------------------------------------
+Public Sub getGblNetworkStats() 'ByRef thisArray() As String, ByRef thisNetworkCount As Integer)
+
+    Dim strComputer As String: strComputer = vbNullString
+    Dim WMIQuery As String: WMIQuery = vbNullString
+    Dim objSWbemServices As Object
+    Dim instances As Object
+    Dim instance As Object
+    Dim ibytes As Long: ibytes = 0
+    Dim obytes As Long: obytes = 0
+    Static ibytesOld As Long ' don't initialise static vars
+    Static obytesOld As Long ' don't initialise static vars
+    Dim bandWidth As Long: bandWidth = 0
+    Dim newTimeStamp As Date: newTimeStamp = #1/1/2000 12:00:00 PM#
+    Static oldTimeStamp As Date ' don't initialise static vars
+    Dim Interval As Long: Interval = 0
+    Dim ibps As Long: ibps = 0
+    Dim obps As Long: obps = 0
+    Dim bndw As Long: bndw = 0
+
+    On Error GoTo getGblNetworkArray_Error
+    
+    strComputer = "."  ' localhost
+    
+    'Get base WMI object, "." means computer name (local)
+    Set objSWbemServices = GetObject("WINMGMTS:\\" & strComputer & "\ROOT\cimv2")
+    
+    PzGCurrentAdapter = "Intel[R] Ethernet Connection [2] I219-V"
+    
+    'Create a WMI query string
+    WMIQuery = "Select * from Win32_PerfRawData_Tcpip_NetworkInterface Where Name='" & PzGCurrentAdapter & "'"
+
+'    'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface
+    Set instances = objSWbemServices.ExecQuery(WMIQuery)
+
+    For Each instance In instances
+        Debug.Print instance.Name 'or other property name
+        Debug.Print "BytesReceivedPersec", instance.BytesReceivedPersec 'or other property name
+        Debug.Print "BytesSentPerSec", instance.BytesSentPerSec 'or other property name
+        Debug.Print "CurrentBandwidth", instance.CurrentBandwidth 'or other property name
+        
+        ibytes = Val(instance.BytesReceivedPersec)
+        obytes = Val(instance.BytesSentPerSec)
+        bandWidth = Val(instance.CurrentBandwidth)
+    Next
+    
+    If (ibytes < 0) Then
+        ibytes = ibytes + 4294967296#
+    End If
+    If (obytes < 0) Then
+        ibytes = ibytes + 4294967296#
+    End If
+    
+    newTimeStamp = Now
+    
+    If oldTimeStamp <> "00:00:00" Then
+        Interval = Int(DateDiff("s", oldTimeStamp, newTimeStamp))
+        
+        If Interval > 0 Then
+            ibps = (ibytes - ibytesOld) / Interval
+            obps = (obytes - obytesOld) / Interval
+            bndw = bandWidth
+        Else
+            ibps = 0
+            obps = 0
+            bndw = 0
+        End If
+    Else
+        ibps = 0
+        obps = 0
+        bndw = 0
+    End If
+    
+    oldTimeStamp = newTimeStamp
+    ibytesOld = ibytes
+    obytesOld = obytes
+
+        
+    On Error GoTo 0
+    Exit Sub
+
+getGblNetworkArray_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure getGblNetworkArray, line " & Erl & "."
+
+End Sub

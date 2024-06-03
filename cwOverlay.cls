@@ -164,11 +164,11 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let Ticking(ByVal NewValue As Boolean)
+Public Property Let Ticking(ByVal newValue As Boolean)
     'Dim intervalValue As Integer: intervalValue = 0
     On Error GoTo TickingLet_Error
 
-    If mTicking <> NewValue Then mTicking = NewValue Else Exit Property
+    If mTicking <> newValue Then mTicking = newValue Else Exit Property
     
     If mTicking Then
 '        If mPointerAnimate Then
@@ -216,11 +216,11 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let PointerAnimate(ByVal NewValue As Boolean)
+Public Property Let PointerAnimate(ByVal newValue As Boolean)
     Dim intervalValue As Integer: intervalValue = 0
     On Error GoTo PointerAnimateLet_Error
 
-    If mPointerAnimate <> NewValue Then mPointerAnimate = NewValue Else Exit Property
+    If mPointerAnimate <> newValue Then mPointerAnimate = newValue Else Exit Property
     
    On Error GoTo 0
    Exit Property
@@ -255,10 +255,10 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let thisOpacity(ByVal NewValue As String)
+Public Property Let thisOpacity(ByVal newValue As String)
     On Error GoTo thisOpacityLet_Error
 
-    If mThisOpacity <> NewValue Then mThisOpacity = NewValue Else Exit Property
+    If mThisOpacity <> newValue Then mThisOpacity = newValue Else Exit Property
         
     On Error GoTo 0
     Exit Property
@@ -295,10 +295,10 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let thisFace(ByVal NewValue As Integer)
+Public Property Let thisFace(ByVal newValue As Integer)
     On Error GoTo thisFaceLet_Error
 
-    If mThisFace <> NewValue Then mThisFace = NewValue Else Exit Property
+    If mThisFace <> newValue Then mThisFace = newValue Else Exit Property
     
     'Call obtainNetworks
     
@@ -337,10 +337,10 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let thisNetwork(ByVal NewValue As String)
+Public Property Let thisNetwork(ByVal newValue As String)
     On Error GoTo thisNetworkLet_Error
 
-    If mThisNetwork <> NewValue Then mThisNetwork = NewValue Else Exit Property
+    If mThisNetwork <> newValue Then mThisNetwork = newValue Else Exit Property
     
     'Call obtainNetworks
     
@@ -379,10 +379,10 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let thisNetworkNo(ByVal NewValue As Integer)
+Public Property Let thisNetworkNo(ByVal newValue As Integer)
     On Error GoTo thisNetworkNoLet_Error
 
-    If mThisNetworkNo <> NewValue Then mThisNetworkNo = NewValue Else Exit Property
+    If mThisNetworkNo <> newValue Then mThisNetworkNo = newValue Else Exit Property
             
     'given a Network number select the Network string
     If mThisNetworkNo < gblNetworkCount Then
@@ -424,10 +424,10 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let samplingInterval(ByVal NewValue As String)
+Public Property Let samplingInterval(ByVal newValue As String)
     On Error GoTo samplingIntervalLet_Error
 
-    If mSamplingInterval <> NewValue Then mSamplingInterval = NewValue Else Exit Property
+    If mSamplingInterval <> newValue Then mSamplingInterval = newValue Else Exit Property
 
     If tmrSampler.Interval = 100 Then Call tmrSampler_Timer ' allows first early run
     
@@ -471,10 +471,10 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let Locked(ByVal NewValue As Boolean)
+Public Property Let Locked(ByVal newValue As Boolean)
    On Error GoTo LockedLet_Error
 
-   If mLocked <> NewValue Then mLocked = NewValue Else Exit Property
+   If mLocked <> newValue Then mLocked = newValue Else Exit Property
 
    On Error GoTo 0
    Exit Property
@@ -510,10 +510,10 @@ End Property
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let Hidden(ByVal NewValue As Boolean)
+Public Property Let Hidden(ByVal newValue As Boolean)
    On Error GoTo HiddenLet_Error
 
-    If mHidden <> NewValue Then mHidden = NewValue Else Exit Property
+    If mHidden <> newValue Then mHidden = newValue Else Exit Property
     If mHidden = True Then
         W.Visible = False
         
@@ -562,7 +562,7 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As Single, ByVal dx_Aligned As Single, ByVal dy_Aligned As Single, UserObj As Object)
-    Dim i As Long: i = 0
+    Dim I As Long: I = 0
     Dim Arr As Variant
     Dim Key As String: Key = vbNullString
     Dim Pat As cCairoPattern
@@ -592,9 +592,9 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
     
     txtNetworkPercent = CStr(Int(NetworkPercent))
 
-    For i = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfAlpha by duplicating collPSDNonUIElements.
-      Arr = cCollOverlayImages.ItemByIndex(i)
-      Key = cCollOverlayImages.KeyByIndex(i)
+    For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfAlpha by duplicating collPSDNonUIElements.
+      Arr = cCollOverlayImages.ItemByIndex(I)
+      Key = cCollOverlayImages.KeyByIndex(I)
       
       If IsArray(Arr) Then
              CC.Save
@@ -674,80 +674,7 @@ W_Paint_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure W_Paint of Class Module cwOverlay"
 End Sub
-Private Sub scanNetwork(ByRef thisArray() As String, ByRef thisNetworkPercentArray() As Integer, ByRef thisNetworkCount As Integer)
-    On Error Resume Next
-    
-    Dim objInterface As CInterface
-    Dim BytesRecv As Double
-    Dim BytesSent As Double
-    Dim BytesTotal As Double
-    Dim DS As Double
-    Dim US As Double
-     
-    Set objInterface = m_objIpHelper.Interfaces(gblNetworkIDArray(mThisNetwork))
 
-    'lblType = m_objIpHelper.Interfaces(cboConnectionType.ListIndex + 1).InterfaceDescription & " "
-
-    BytesRecv = Abs(m_objIpHelper.BytesReceived)
-    BytesSent = m_objIpHelper.BytesSent
-    BytesTotal = BytesRecv + BytesSent
-    
-'    lblRecv.Caption = Format(BytesRecv / 1024, "###,###,###,###,##0 KB")
-'    lblSent.Caption = Format(BytesSent / 1024, "###,###,###,###,##0 KB")
-    
-
-    DS = BytesRecv - LastRecvBytes
-    US = BytesSent - LastSentBytes
-    
-'    If DownloadSpeedTop < DS Then
-'        tmrReset.Enabled = False
-'        tmrReset.Enabled = True
-'        DownloadSpeedTop = DS
-'    End If
-'    If UploadSpeedTop < US Then
-'        tmrReset.Enabled = False
-'        tmrReset.Enabled = True
-'        UploadSpeedTop = US
-'    End If
-
-'    DownloadSpeedAverage = (DownloadSpeedAverage + DS) / 2
-'    UploadSpeedAverage = (UploadSpeedAverage + US) / 2
-    
-'    lblDownloadSpeedTop = "Top download speed: " & Format(DownloadSpeedTop / 1024, "###,###,###,###,#0.#0 Kb/S")
-'    lblUploadSpeedTop = "Top upload speed: " & Format(UploadSpeedTop / 1024, "###,###,###,###,#0.#0 Kb/S")
-'    lblDownloadSpeedAverage = "Average download speed: " & Format(DownloadSpeedAverage / 1024, "###,###,###,###,#0.#0 Kb/S")
-'    lblUploadSpeedAverage = "Average upload speed: " & Format(UploadSpeedAverage / 1024, "###,###,###,###,#0.#0 Kb/S")
-    
-'    If DS / 1024 < 1 Then
-'        lblDSpeed = Format(DS, "0 BS ")
-'    Else
-'        lblDSpeed = Format(DS / 1024, "0.#0 KBS ")
-'    End If
-'    If US / 1024 < 1 Then
-'        lblUSpeed = Format(US, "0 BS ")
-'    Else
-'        lblUSpeed = Format(US / 1024, "0.#0 KBS ")
-'    End If
-
-    
-'    LastRecvBytes = BytesRecv
-'    LastSentBytes = BytesSent
-'    LastMoment = Now
-    
-'    If m_objIpHelper.Interfaces.Count <> cboConnectionType.ListCount Then
-'        Dim a As Long
-'        cboConnectionType.Clear
-'        For a = 1 To m_objIpHelper.Interfaces.Count
-'            cboConnectionType.AddItem m_objIpHelper.Interfaces(a).InterfaceDescription & " "
-'        Next
-'        If Val(GetSetting(App.Title, "Setting", "Connection", 0)) + 1 <= cboConnectionType.ListCount Then
-'            cboConnectionType.ListIndex = Val(GetSetting(App.Title, "Setting", "Connection", 0))
-'        Else
-'            cboConnectionType.ListIndex = 0
-'        End If
-'    End If
-    
-End Sub
 '---------------------------------------------------------------------------------------
 ' Procedure : tmrAnimator_Timer
 ' Author    :
@@ -812,9 +739,9 @@ Private Sub tmrSampler_Timer()
             oldSDeg = SDeg
             
             ' get the list of Network and the count
-            Call getgblNetworkArray(gblNetworkIDArray(), gblNetworkCount)
+            'Call getgblNetworkArray(gblNetworkIDArray(), gblNetworkCount)
             
-            Call scanNetwork(gblNetworkIDArray(), gblNetworkPercentArray(), gblNetworkCount)
+            Call getGblNetworkStats '(gblNetworkIDArray(), gblNetworkPercentArray(), gblNetworkCount)
     
             'Debug.Print (thisNetworkPercentArray(0))
         
@@ -887,7 +814,9 @@ Private Sub obtainNetworks()
     On Error GoTo obtainNetworks_Error
     
         ' get the list of Networks and the count
-        Call getgblNetworkArray(gblNetworkIDArray(), gblNetworkCount)
+        'Call getgblNetworkArray(gblNetworkIDArray(), gblNetworkCount)
+        
+        Call getGblNetworkStats
         
         Debug.Print gblNetworkIDArray(0)
     
@@ -923,8 +852,8 @@ Private Function Network_Usage_Percent() As Long
     Dim newT As Integer
     On Error GoTo Network_Usage_Percent_Error
     
-    ' newT = 10
-    'newT = gblNetworkPercentArray(mThisNetworkNo)
+     newT = 0
+'    newT = gblNetworkPercentArray(0)
 
     Network_Usage_Percent = newT
      

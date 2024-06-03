@@ -30,7 +30,7 @@ Begin VB.Form panzerPrefs
          TabIndex        =   51
          Top             =   300
          Width           =   7935
-         Begin VB.CommandButton btnMoreCmbCurrentNetwork 
+         Begin VB.CommandButton btnMoreCmbCurrentAdapter 
             Caption         =   ">"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
@@ -58,7 +58,7 @@ Begin VB.Form panzerPrefs
             Top             =   3000
             Width           =   3720
          End
-         Begin VB.ComboBox cmbCurrentNetwork 
+         Begin VB.ComboBox cmbCurrentAdapter 
             Height          =   315
             ItemData        =   "frmPrefs.frx":10CE
             Left            =   2025
@@ -2118,28 +2118,28 @@ Private gblAllowSizeChangeFlg As Boolean
 
 
 ' ----------------------------------------------------------------
-' Procedure Name: cmbCurrentNetwork_Click
+' Procedure Name: cmbCurrentAdapter_Click
 ' Purpose:
 ' Procedure Kind: Sub
 ' Procedure Access: Private
 ' Author: beededea
 ' Date: 13/01/2024
 ' ----------------------------------------------------------------
-Private Sub cmbCurrentNetwork_Click()
-    On Error GoTo cmbCurrentNetwork_Click_Error
+Private Sub cmbCurrentAdapter_Click()
+    On Error GoTo cmbCurrentAdapter_Click_Error
     
     btnSave.Enabled = True ' enable the save button
-    PzGCurrentNetwork = cmbCurrentNetwork.ListIndex
-    sPutINISetting "Software\PzNetworkGauge", "currentNetwork", PzGCurrentNetwork, PzGSettingsFile
+    PzGCurrentAdapter = cmbCurrentAdapter.ListIndex
+    sPutINISetting "Software\PzNetworkGauge", "currentAdapter", PzGCurrentAdapter, PzGSettingsFile
     
-    overlayWidget.thisNetworkNo = cmbCurrentNetwork.ListIndex
+    overlayWidget.thisNetworkNo = cmbCurrentAdapter.ListIndex
     
     On Error GoTo 0
     Exit Sub
 
-cmbCurrentNetwork_Click_Error:
+cmbCurrentAdapter_Click_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure cmbCurrentNetwork_Click, line " & Erl & "."
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure cmbCurrentAdapter_Click, line " & Erl & "."
 
 End Sub
 
@@ -2148,9 +2148,9 @@ End Sub
 
 
 
-Private Sub btnMoreCmbCurrentNetwork_Click()
-    cmbCurrentNetwork.Width = 7500
-    btnMoreCmbCurrentNetwork.Visible = False
+Private Sub btnMoreCmbCurrentAdapter_Click()
+    cmbCurrentAdapter.Width = 7500
+    btnMoreCmbCurrentAdapter.Visible = False
 End Sub
 
 ' ----------------------------------------------------------------
@@ -3305,7 +3305,7 @@ Private Sub btnSave_Click()
 '    PzGMainDaylightSaving = cmbMainDaylightSaving.ListIndex
     
     PzGPointerAnimate = LTrim$(Str$(cmbTickSwitchPref.ListIndex))
-    PzGCurrentNetwork = LTrim$(Str$(cmbCurrentNetwork.ListIndex))
+    PzGCurrentAdapter = LTrim$(Str$(cmbCurrentAdapter.ListIndex))
     PzGNetworkTraffic = LTrim$(Str$(cmbNetworkTraffic.ListIndex))
 
 
@@ -3389,7 +3389,7 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\PzNetworkGauge", "pointerAnimate", PzGPointerAnimate, PzGSettingsFile
         sPutINISetting "Software\PzNetworkGauge", "samplingInterval", PzGSamplingInterval, PzGSettingsFile
         
-        sPutINISetting "Software\PzNetworkGauge", "currentNetwork", PzGCurrentNetwork, PzGSettingsFile
+        sPutINISetting "Software\PzNetworkGauge", "currentAdapter", PzGCurrentAdapter, PzGSettingsFile
         sPutINISetting "Software\PzNetworkGauge", "networkTraffic", PzGNetworkTraffic, PzGSettingsFile
         
         'sPutINISetting "Software\PzNetworkGauge", "clockFaceSwitchPref", PzGClockFaceSwitchPref, PzGSettingsFile
@@ -3610,7 +3610,7 @@ End Sub
 '
 Private Sub adjustPrefsControls()
     
-    Dim i As Integer: i = 0
+    Dim I As Integer: I = 0
     Dim fntWeight As Integer: fntWeight = 0
     Dim fntStyle As Boolean: fntStyle = False
     Dim sliGaugeSizeOldValue As Long: sliGaugeSizeOldValue = 0
@@ -3636,7 +3636,7 @@ Private Sub adjustPrefsControls()
     cmbTickSwitchPref.ListIndex = Val(PzGPointerAnimate)
     
     ' prefs combo matches stored current Network
-    cmbCurrentNetwork.ListIndex = Val(PzGCurrentNetwork)
+    cmbCurrentAdapter.ListIndex = Val(PzGCurrentAdapter)
     cmbNetworkTraffic.ListIndex = Val(PzGNetworkTraffic)
 
     
@@ -3744,7 +3744,7 @@ End Sub
 '---------------------------------------------------------------------------------------
 
 Private Sub populatePrefsComboBoxes()
-    Dim i As Integer: i = 0
+    Dim I As Integer: I = 0
     
     On Error GoTo populatePrefsComboBoxes_Error
     
@@ -3811,13 +3811,13 @@ Private Sub populatePrefsComboBoxes()
     cmbTickSwitchPref.AddItem "Smooth", 1
     cmbTickSwitchPref.ItemData(1) = 1
     
-    For i = 0 To (gblNetworkCount - 1)
-        If gblNetworkIDArray(i) = "" Then Exit For
-        cmbCurrentNetwork.AddItem "Network " & (i + 1) & " " & gblNetworkIDArray(i) & " " & gblNetworkIDArray(i), i
-        cmbCurrentNetwork.ItemData(i) = i
-    Next i
-'    cmbCurrentNetwork.AddItem "none", I
-'    cmbCurrentNetwork.ItemData(I) = 9999
+    For I = 0 To (gblNetworkCount - 1)
+        If gblNetworkIDArray(I) = "" Then Exit For
+        cmbCurrentAdapter.AddItem "Network " & (I + 1) & " " & gblNetworkIDArray(I) & " " & gblNetworkIDArray(I), I
+        cmbCurrentAdapter.ItemData(I) = I
+    Next I
+'    cmbCurrentAdapter.AddItem "none", I
+'    cmbCurrentAdapter.ItemData(I) = 9999
     
     cmbNetworkTraffic.AddItem "Both", 0
     cmbNetworkTraffic.ItemData(0) = 0
@@ -4666,9 +4666,9 @@ Public Sub setPrefsTooltips()
         chkEnablePrefsTooltips.ToolTipText = "Check the box to enable tooltips for all controls in the preferences utility"
         btnResetMessages.ToolTipText = "This button restores the pop-up messages to their original visible state."
 
-        cmbCurrentNetwork.ToolTipText = "Identify your network adapter beforehand using the network panel on your system's settings or the control panel."
+        cmbCurrentAdapter.ToolTipText = "Identify your network adapter beforehand using the network panel on your system's settings or the control panel."
         cmbNetworkTraffic.ToolTipText = "By default both IN and OUT traffic will be monitored, you can select just received bytes input or those sent by the network adapter, selected above."
-        btnMoreCmbCurrentNetwork.ToolTipText = "click here to widen the network adapter list"
+        btnMoreCmbCurrentAdapter.ToolTipText = "click here to widen the network adapter list"
     
     Else
         imgConfig.ToolTipText = vbNullString
@@ -4743,9 +4743,9 @@ Public Sub setPrefsTooltips()
         chkEnablePrefsTooltips.ToolTipText = vbNullString
         btnResetMessages.ToolTipText = vbNullString
 
-        cmbCurrentNetwork.ToolTipText = vbNullString
+        cmbCurrentAdapter.ToolTipText = vbNullString
         cmbNetworkTraffic.ToolTipText = vbNullString
-        btnMoreCmbCurrentNetwork.ToolTipText = vbNullString
+        btnMoreCmbCurrentAdapter.ToolTipText = vbNullString
 
     End If
 
@@ -6027,13 +6027,13 @@ Public Sub setPrefsFormZordering()
 
    On Error GoTo setPrefsFormZordering_Error
 
-    If Val(PzGWindowLevel) = 0 Then
-        Call SetWindowPos(Me.hwnd, HWND_BOTTOM, 0&, 0&, 0&, 0&, OnTopFlags)
-    ElseIf Val(PzGWindowLevel) = 1 Then
-        Call SetWindowPos(Me.hwnd, HWND_TOP, 0&, 0&, 0&, 0&, OnTopFlags)
-    ElseIf Val(PzGWindowLevel) = 2 Then
-        Call SetWindowPos(Me.hwnd, HWND_TOPMOST, 0&, 0&, 0&, 0&, OnTopFlags)
-    End If
+'    If Val(PzGWindowLevel) = 0 Then
+'        Call SetWindowPos(Me.hwnd, HWND_BOTTOM, 0&, 0&, 0&, 0&, OnTopFlags)
+'    ElseIf Val(PzGWindowLevel) = 1 Then
+'        Call SetWindowPos(Me.hwnd, HWND_TOP, 0&, 0&, 0&, 0&, OnTopFlags)
+'    ElseIf Val(PzGWindowLevel) = 2 Then
+'        Call SetWindowPos(Me.hwnd, HWND_TOPMOST, 0&, 0&, 0&, 0&, OnTopFlags)
+'    End If
 
    On Error GoTo 0
    Exit Sub
