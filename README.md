@@ -21,6 +21,7 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
  also be made to hide for a pre-determined period.
 
 ![pzNetwork001](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/c37c0c1f-015a-4b94-bf0f-4e192c3d3516)
+The gauge blown up to maximum size!
 
  Right clicking will bring up a menu of options. Double-clicking on the widget will cause a personalised Windows application to 
  fire up. The first time you run it there will be no assigned function and so it 
