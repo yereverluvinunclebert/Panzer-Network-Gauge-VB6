@@ -20,7 +20,7 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
  opacity/transparency may be set as to the users discretion. The widget can 
  also be made to hide for a pre-determined period.
 
-![Default](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/5e594e79-c540-4692-94e0-7813c04ce83a)
+![pzNetwork001](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/c37c0c1f-015a-4b94-bf0f-4e192c3d3516)
 
  Right clicking will bring up a menu of options. Double-clicking on the widget will cause a personalised Windows application to 
  fire up. The first time you run it there will be no assigned function and so it 
