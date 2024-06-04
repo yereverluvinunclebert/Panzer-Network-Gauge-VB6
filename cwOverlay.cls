@@ -336,7 +336,7 @@ Public Property Let thisAdapterName(ByVal newValue As String)
 
     If mThisAdapterName <> newValue Then mThisAdapterName = newValue Else Exit Property
     
-    ' Call getGblNetworkStats(ibytes, oBytes)
+    ' Call getGblNetworkStats(bytes, maxBytes, percentageBandwidth)
     
     On Error GoTo 0
     Exit Property
@@ -585,6 +585,7 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
     someOpacity = (Val(mThisOpacity) / 100) * 0.75
     
     txtNetworkPercent = CStr(Int(NetworkPercent))
+    txtNetworkCurrent = PzGMaxSpeed
 
     For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfAlpha by duplicating collPSDNonUIElements.
       Arr = cCollOverlayImages.ItemByIndex(I)
@@ -614,14 +615,14 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
                  
                  Case "redlamptrue"
                     
-                    If NetworkPercent < 80 Then
+                    If NetworkPercent >= 90 Then
                         Set Pat.Matrix = Pat.Matrix.TranslateCoords(-Arr(0), -Arr(1)) 'shift the Pattern via the original X,Y PSD-Offsets (stored in Arr(0) and Arr(1))
                         CC.Paint Arr(2), Pat 'render the Pattern
                     End If
                       
                  Case "greenlamptrue"
                     
-                    If NetworkPercent >= 80 Then
+                    If NetworkPercent <= 90 Then
                         Set Pat.Matrix = Pat.Matrix.TranslateCoords(-Arr(0), -Arr(1)) 'shift the Pattern via the original X,Y PSD-Offsets (stored in Arr(0) and Arr(1))
                         CC.Paint Arr(2), Pat 'render the Pattern
                     End If
@@ -637,11 +638,11 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
                     W.Refresh
                     
                     leftmostMax = 265
-                    leftmostCurr = 405
+                    leftmostCurr = 460
                     
                      ' draw the date and day in the windows just once to retain opacity
-                    CC.DrawText leftmostMax, 103, 200, 200, txtNetworkPercent, , , 2, True, , someOpacity
-                    CC.DrawText leftmostCurr, 103, 200, 200, txtNetworkCurrent, , , 2, True, , someOpacity
+                    CC.DrawText leftmostMax, 105, 200, 200, txtNetworkPercent, , , 2, True, , someOpacity
+                    CC.DrawText leftmostCurr, 300, 200, 200, txtNetworkCurrent, , , 2, True, , someOpacity
                     textDrawn = True
                     
                     Set Pat.Matrix = Pat.Matrix.TranslateCoords(11, 246) 'shift to the "rotation-point" within the Pattern
@@ -721,11 +722,18 @@ End Sub
 '---------------------------------------------------------------------------------------
 '
 Private Sub tmrSampler_Timer()
+    Dim percentageBandwidth As Integer: percentageBandwidth = 0
+    'Dim maxBytes As Long: maxBytes = 0
+    Dim bytes As Long: bytes = 0
     Dim degDiff As Double: degDiff = 0
     
     On Error GoTo tmrSampler_Timer_Error
     
-    tmrSampler.Enabled = False
+    'tmrSampler.Enabled = False
+    
+    'maxBytes = Val(PzGMaxSpeed)
+    
+
             
     If mPointerAnimate = True Then
         If tmrAnimator.Enabled = False Then
@@ -733,9 +741,7 @@ Private Sub tmrSampler_Timer()
             ' oldSDeg stored
             oldSDeg = SDeg
             
-            Call getGblNetworkStats(ibytes, oBytes)
-    
-            'Debug.Print (thisNetworkPercentArray(0))
+            'Call getGblNetworkStats(bytes, maxBytes, percentageBandwidth)
         
             If mThisNetworkNo <> "9999" Then
                 NetworkPercent = Network_Usage_Percent
@@ -792,8 +798,6 @@ tmrSampler_Timer_Error:
 End Sub
 
 
-
-
 ' ----------------------------------------------------------------
 ' Procedure Name: obtainNetworks
 ' Purpose:
@@ -805,17 +809,15 @@ End Sub
 Private Sub obtainNetworks()
     On Error GoTo obtainNetworks_Error
     
-
+    If mThisNetworkNo <> "9999" Then
+        NetworkPercent = Network_Usage_Percent
+    Else
+        NetworkPercent = 0
+    End If
+            
+    SDeg = (NetworkPercent * 3) + 30
     
-        If mThisNetworkNo <> "9999" Then
-            NetworkPercent = Network_Usage_Percent
-        Else
-            NetworkPercent = 0
-        End If
-                
-        SDeg = (NetworkPercent * 3) + 30
-        
-        W.Refresh
+    W.Refresh
     
     On Error GoTo 0
     Exit Sub
@@ -836,17 +838,18 @@ End Sub
 ' Date: 09/01/2024
 ' ----------------------------------------------------------------
 Private Function Network_Usage_Percent() As Long
-    Dim newT As Integer
+
+    Dim percentageBandwidth As Integer: percentageBandwidth = 0
+    Dim maxBytes As Double: maxBytes = 0
+    Dim bytes As Double: bytes = 0
+    
     On Error GoTo Network_Usage_Percent_Error
     
-     newT = 0
-'    newT = gblNetworkPercentArray(0)
+    maxBytes = 125000 * Val(PzGMaxSpeed)
 
-    Call getGblNetworkStats(ibytes, oBytes)
-        
-    'Debug.Print gblNetworkIDArray(0)
+    Call getGblNetworkStats(bytes, maxBytes, percentageBandwidth)
 
-    Network_Usage_Percent = newT
+    Network_Usage_Percent = percentageBandwidth
      
     On Error GoTo 0
     Exit Function

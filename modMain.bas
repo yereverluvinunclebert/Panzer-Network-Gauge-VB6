@@ -145,7 +145,7 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     ' get the list of Network and the count
     Call getgblNetworkArray(gblNetworkIDArray(), gblBandwidthArray(), gblNetworkCount)
     
-    Call getGblNetworkStats(ibytes, oBytes)
+    'Call getGblNetworkStats(bytes, maxBytes, percentageBandwidth)
     
     Debug.Print gblNetworkIDArray(0)
     Debug.Print gblNetworkCount
@@ -297,8 +297,8 @@ Private Sub initialiseGlobalVars()
     PzGIgnoreMouse = vbNullString
     PzGFirstTimeRun = vbNullString
     
-    PzGMaxSpeedPref = vbNullString
-    PzGMinSpeedPref = vbNullString
+    PzGMaxSpeed = vbNullString
+    PzGMinSpeed = vbNullString
     
     ' general storage variables declared
     PzGSettingsDir = vbNullString
@@ -670,8 +670,8 @@ Public Sub readSettingsFile(ByVal location As String, ByVal PzGSettingsFile As S
          
         PzGFirstTimeRun = fGetINISetting(location, "firstTimeRun", PzGSettingsFile)
         
-        PzGMaxSpeedPref = fGetINISetting(location, "maxSpeedPref", PzGSettingsFile)
-        PzGMinSpeedPref = fGetINISetting(location, "minSpeedPref", PzGSettingsFile)
+        PzGMaxSpeed = fGetINISetting(location, "maxSpeed", PzGSettingsFile)
+        PzGMinSpeed = fGetINISetting(location, "minSpeed", PzGSettingsFile)
         
         
     End If
@@ -763,8 +763,8 @@ Public Sub validateInputs()
         If PzGLastSelectedTab = vbNullString Then PzGLastSelectedTab = "general"
         If PzGSkinTheme = vbNullString Then PzGSkinTheme = "dark"
         
-        If PzGMaxSpeedPref = vbNullString Then PzGMaxSpeedPref = "0"
-        If PzGMinSpeedPref = vbNullString Then PzGMinSpeedPref = "0"
+        If PzGMaxSpeed = vbNullString Then PzGMaxSpeed = "0"
+        If PzGMinSpeed = vbNullString Then PzGMinSpeed = "0"
        
         
    On Error GoTo 0

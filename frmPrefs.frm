@@ -17,7 +17,7 @@ Begin VB.Form panzerPrefs
    Begin VB.Frame fraGeneral 
       Caption         =   "General"
       ForeColor       =   &H80000008&
-      Height          =   6585
+      Height          =   7890
       Left            =   75
       TabIndex        =   50
       Top             =   1185
@@ -25,11 +25,21 @@ Begin VB.Form panzerPrefs
       Width           =   8670
       Begin VB.Frame fraGeneralInner 
          BorderStyle     =   0  'None
-         Height          =   6030
+         Height          =   7230
          Left            =   465
          TabIndex        =   51
          Top             =   300
          Width           =   7935
+         Begin VB.ComboBox cmbMaxSpeed 
+            Height          =   315
+            ItemData        =   "frmPrefs.frx":10CA
+            Left            =   2025
+            List            =   "frmPrefs.frx":10CC
+            Style           =   2  'Dropdown List
+            TabIndex        =   168
+            Top             =   4020
+            Width           =   3720
+         End
          Begin VB.CommandButton btnMoreCmbCurrentAdapter 
             Caption         =   ">"
             BeginProperty Font 
@@ -50,9 +60,9 @@ Begin VB.Form panzerPrefs
          End
          Begin VB.ComboBox cmbNetworkTraffic 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":10CA
+            ItemData        =   "frmPrefs.frx":10CE
             Left            =   2010
-            List            =   "frmPrefs.frx":10CC
+            List            =   "frmPrefs.frx":10D0
             Style           =   2  'Dropdown List
             TabIndex        =   164
             Top             =   3000
@@ -60,9 +70,9 @@ Begin VB.Form panzerPrefs
          End
          Begin VB.ComboBox cmbCurrentAdapter 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":10CE
+            ItemData        =   "frmPrefs.frx":10D2
             Left            =   2025
-            List            =   "frmPrefs.frx":10D0
+            List            =   "frmPrefs.frx":10D4
             Style           =   2  'Dropdown List
             TabIndex        =   161
             Top             =   1950
@@ -79,9 +89,9 @@ Begin VB.Form panzerPrefs
          End
          Begin VB.ComboBox cmbTickSwitchPref 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":10D2
+            ItemData        =   "frmPrefs.frx":10D6
             Left            =   2010
-            List            =   "frmPrefs.frx":10D4
+            List            =   "frmPrefs.frx":10D8
             Style           =   2  'Dropdown List
             TabIndex        =   145
             Top             =   975
@@ -93,7 +103,7 @@ Begin VB.Form panzerPrefs
             Left            =   1980
             TabIndex        =   93
             ToolTipText     =   "Check this box to enable the automatic start of the program when Windows is started."
-            Top             =   5505
+            Top             =   6750
             Width           =   4020
          End
          Begin vb6projectCCRSlider.Slider sliSamplingInterval 
@@ -101,7 +111,7 @@ Begin VB.Form panzerPrefs
             Left            =   1905
             TabIndex        =   155
             ToolTipText     =   "Setting the sampling interval affects the frequency of the pointer updates."
-            Top             =   4140
+            Top             =   5385
             Width           =   3870
             _ExtentX        =   6826
             _ExtentY        =   688
@@ -109,6 +119,24 @@ Begin VB.Form panzerPrefs
             Max             =   30
             Value           =   20
             SelStart        =   20
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Estimate the maximum speed of this network device (in Mbps). This setting will be adjusted automatically as the widget runs."
+            Height          =   690
+            Index           =   10
+            Left            =   2040
+            TabIndex        =   170
+            Top             =   4470
+            Width           =   3810
+         End
+         Begin VB.Label lblGeneral 
+            Caption         =   "Maximum Speed :"
+            Height          =   510
+            Index           =   8
+            Left            =   495
+            TabIndex        =   169
+            Top             =   4080
+            Width           =   1530
          End
          Begin VB.Label lblGeneral 
             Caption         =   "Network Traffic :"
@@ -152,7 +180,7 @@ Begin VB.Form panzerPrefs
             Index           =   14
             Left            =   2010
             TabIndex        =   160
-            Top             =   4920
+            Top             =   6165
             Width           =   3810
          End
          Begin VB.Label lblWindowLevel 
@@ -161,7 +189,7 @@ Begin VB.Form panzerPrefs
             Index           =   13
             Left            =   510
             TabIndex        =   159
-            Top             =   4200
+            Top             =   5445
             Width           =   1410
          End
          Begin VB.Label lblWindowLevel 
@@ -170,7 +198,7 @@ Begin VB.Form panzerPrefs
             Index           =   12
             Left            =   3630
             TabIndex        =   158
-            Top             =   4605
+            Top             =   5850
             Width           =   840
          End
          Begin VB.Label lblWindowLevel 
@@ -179,7 +207,7 @@ Begin VB.Form panzerPrefs
             Index           =   11
             Left            =   5400
             TabIndex        =   157
-            Top             =   4605
+            Top             =   5850
             Width           =   405
          End
          Begin VB.Label lblWindowLevel 
@@ -188,7 +216,7 @@ Begin VB.Form panzerPrefs
             Index           =   10
             Left            =   2085
             TabIndex        =   156
-            Top             =   4605
+            Top             =   5850
             Width           =   345
          End
          Begin VB.Label lblGeneral 
@@ -225,7 +253,7 @@ Begin VB.Form panzerPrefs
             Left            =   945
             TabIndex        =   94
             Tag             =   "lblRefreshInterval"
-            Top             =   5625
+            Top             =   6870
             Width           =   1740
          End
          Begin VB.Label lblGeneral 
@@ -325,7 +353,7 @@ Begin VB.Form panzerPrefs
             SelStart        =   5
          End
          Begin VB.Label lblConfiguration 
-            Caption         =   $"frmPrefs.frx":10D6
+            Caption         =   $"frmPrefs.frx":10DA
             Height          =   930
             Index           =   0
             Left            =   1980
@@ -619,7 +647,7 @@ Begin VB.Form panzerPrefs
             Width           =   2115
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":118A
+            Caption         =   $"frmPrefs.frx":118E
             Height          =   3435
             Index           =   12
             Left            =   5145
@@ -639,7 +667,7 @@ Begin VB.Form panzerPrefs
             Width           =   2040
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":135C
+            Caption         =   $"frmPrefs.frx":1360
             Height          =   705
             Index           =   10
             Left            =   2250
@@ -659,7 +687,7 @@ Begin VB.Form panzerPrefs
             Width           =   2355
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":13FB
+            Caption         =   $"frmPrefs.frx":13FF
             Height          =   3045
             Index           =   6
             Left            =   2265
@@ -721,7 +749,7 @@ Begin VB.Form panzerPrefs
                Width           =   3660
             End
             Begin VB.Label lblGitHub 
-               Caption         =   $"frmPrefs.frx":15A0
+               Caption         =   $"frmPrefs.frx":15A4
                ForeColor       =   &H8000000D&
                Height          =   915
                Left            =   1560
@@ -731,7 +759,7 @@ Begin VB.Form panzerPrefs
                Width           =   4935
             End
             Begin VB.Label lblDebug 
-               Caption         =   $"frmPrefs.frx":1639
+               Caption         =   $"frmPrefs.frx":163D
                Height          =   930
                Index           =   9
                Left            =   1545
@@ -778,9 +806,9 @@ Begin VB.Form panzerPrefs
          End
          Begin VB.ComboBox cmbDebug 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":16DD
+            ItemData        =   "frmPrefs.frx":16E1
             Left            =   1530
-            List            =   "frmPrefs.frx":16DF
+            List            =   "frmPrefs.frx":16E3
             Style           =   2  'Dropdown List
             TabIndex        =   54
             ToolTipText     =   "Choose to set debug mode."
@@ -873,7 +901,7 @@ Begin VB.Form panzerPrefs
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   114
-         Text            =   "frmPrefs.frx":16E1
+         Text            =   "frmPrefs.frx":16E5
          Top             =   2205
          Width           =   8010
       End
@@ -1188,7 +1216,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgDevelopment 
          Height          =   600
          Left            =   150
-         Picture         =   "frmPrefs.frx":2698
+         Picture         =   "frmPrefs.frx":269C
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1196,7 +1224,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgDevelopmentClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":2C50
+         Picture         =   "frmPrefs.frx":2C54
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1296,7 +1324,7 @@ Begin VB.Form panzerPrefs
             Width           =   2400
          End
          Begin VB.Label lblFontsTab 
-            Caption         =   $"frmPrefs.frx":2FD6
+            Caption         =   $"frmPrefs.frx":2FDA
             Height          =   1710
             Index           =   0
             Left            =   1725
@@ -1382,7 +1410,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgAbout 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":3114
+         Picture         =   "frmPrefs.frx":3118
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1390,7 +1418,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgAboutClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":369C
+         Picture         =   "frmPrefs.frx":36A0
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1415,7 +1443,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgConfig 
          Height          =   600
          Left            =   165
-         Picture         =   "frmPrefs.frx":3B87
+         Picture         =   "frmPrefs.frx":3B8B
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1423,7 +1451,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgConfigClicked 
          Height          =   600
          Left            =   165
-         Picture         =   "frmPrefs.frx":4166
+         Picture         =   "frmPrefs.frx":416A
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1448,7 +1476,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgPosition 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":466B
+         Picture         =   "frmPrefs.frx":466F
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1456,7 +1484,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgPositionClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":4C3C
+         Picture         =   "frmPrefs.frx":4C40
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1501,7 +1529,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgSounds 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":4FDA
+         Picture         =   "frmPrefs.frx":4FDE
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1509,7 +1537,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgSoundsClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":5599
+         Picture         =   "frmPrefs.frx":559D
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1549,7 +1577,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgWindow 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":5A69
+         Picture         =   "frmPrefs.frx":5A6D
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1557,7 +1585,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgWindowClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":5F33
+         Picture         =   "frmPrefs.frx":5F37
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1581,7 +1609,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgFonts 
          Height          =   600
          Left            =   180
-         Picture         =   "frmPrefs.frx":62DF
+         Picture         =   "frmPrefs.frx":62E3
          Stretch         =   -1  'True
          Top             =   195
          Width           =   600
@@ -1589,7 +1617,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgFontsClicked 
          Height          =   600
          Left            =   180
-         Picture         =   "frmPrefs.frx":6835
+         Picture         =   "frmPrefs.frx":6839
          Stretch         =   -1  'True
          Top             =   195
          Width           =   600
@@ -1604,7 +1632,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgGeneral 
          Height          =   600
          Left            =   180
-         Picture         =   "frmPrefs.frx":6CCE
+         Picture         =   "frmPrefs.frx":6CD2
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1719,7 +1747,7 @@ Begin VB.Form panzerPrefs
                Width           =   720
             End
             Begin VB.Label lblWindowLevel 
-               Caption         =   $"frmPrefs.frx":7138
+               Caption         =   $"frmPrefs.frx":713C
                Height          =   975
                Index           =   1
                Left            =   855
@@ -3309,7 +3337,7 @@ Private Sub btnSave_Click()
     PzGNetworkTraffic = LTrim$(Str$(cmbNetworkTraffic.ListIndex))
 
 
-    sliSamplingInterval.Value = 30
+    'sliSamplingInterval.Value = 30
     PzGSamplingInterval = LTrim$(Str$(sliSamplingInterval.Value))
     
     
@@ -3433,8 +3461,8 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\PzNetworkGauge", "clockLowDpiXPos", PzGClockLowDpiXPos, PzGSettingsFile
         sPutINISetting "Software\PzNetworkGauge", "clockLowDpiYPos", PzGClockLowDpiYPos, PzGSettingsFile
         
-        sPutINISetting "Software\PzNetworkGauge", "maxSpeedPref", PzGMaxSpeedPref, PzGSettingsFile
-        sPutINISetting "Software\PzNetworkGauge", "minSpeedPref", PzGMinSpeedPref, PzGSettingsFile
+        sPutINISetting "Software\PzNetworkGauge", "maxSpeed", PzGMaxSpeed, PzGSettingsFile
+        sPutINISetting "Software\PzNetworkGauge", "minSpeed", PzGMinSpeed, PzGSettingsFile
 
         'save the values from the Text Items
 
@@ -3640,9 +3668,10 @@ Private Sub adjustPrefsControls()
     ' prefs combo matches stored current Network
     cmbCurrentAdapter.ListIndex = Val(PzGCurrentAdapter)
     cmbNetworkTraffic.ListIndex = Val(PzGNetworkTraffic)
+    cmbMaxSpeed.ListIndex = Val(PzGMaxSpeed)
 
     
-    sliSamplingInterval = Val(PzGSamplingInterval)
+    sliSamplingInterval.Value = Val(PzGSamplingInterval)
     
     ' configuration tab
    
@@ -3827,6 +3856,34 @@ Private Sub populatePrefsComboBoxes()
     cmbNetworkTraffic.ItemData(1) = 1
     cmbNetworkTraffic.AddItem "Sent", 2
     cmbNetworkTraffic.ItemData(2) = 2
+    
+    
+    cmbMaxSpeed.AddItem "1", 0
+    cmbMaxSpeed.ItemData(0) = 1
+    cmbMaxSpeed.AddItem "2", 1
+    cmbMaxSpeed.ItemData(1) = 2
+    cmbMaxSpeed.AddItem "3", 2
+    cmbMaxSpeed.ItemData(2) = 3
+    cmbMaxSpeed.AddItem "4", 3
+    cmbMaxSpeed.ItemData(3) = 4
+    cmbMaxSpeed.AddItem "6", 4
+    cmbMaxSpeed.ItemData(4) = 6
+    cmbMaxSpeed.AddItem "8", 5
+    cmbMaxSpeed.ItemData(5) = 8
+    cmbMaxSpeed.AddItem "12", 6
+    cmbMaxSpeed.ItemData(6) = 12
+    cmbMaxSpeed.AddItem "16", 7
+    cmbMaxSpeed.ItemData(7) = 16
+    cmbMaxSpeed.AddItem "24", 8
+    cmbMaxSpeed.ItemData(8) = 24
+    cmbMaxSpeed.AddItem "32", 9
+    cmbMaxSpeed.ItemData(9) = 32
+    cmbMaxSpeed.AddItem "48", 10
+    cmbMaxSpeed.ItemData(10) = 48
+    cmbMaxSpeed.AddItem "64", 11
+    cmbMaxSpeed.ItemData(11) = 64
+    cmbMaxSpeed.AddItem "100", 12
+    cmbMaxSpeed.ItemData(12) = 100
 
     On Error GoTo 0
     Exit Sub

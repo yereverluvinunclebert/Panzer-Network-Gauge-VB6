@@ -345,8 +345,8 @@ Public PzGHidingTime  As String
 Public PzGIgnoreMouse  As String
 Public PzGFirstTimeRun  As String
 
-Public PzGMaxSpeedPref  As String
-Public PzGMinSpeedPref  As String
+Public PzGMaxSpeed  As String
+Public PzGMinSpeed  As String
 
 
 
@@ -450,8 +450,8 @@ Public gblNetworkCount As Integer
 '
 'Public m_objIpHelper As CIpHelper
 
-Public ibytes As Long ': ibytes = 0
-Public oBytes As Long ': oBytes = 0
+Public ibytes As Double ': ibytes = 0
+Public oBytes As Double ': oBytes = 0
 
 
 '---------------------------------------------------------------------------------------
@@ -2774,9 +2774,9 @@ Public Function ArrayString(ParamArray tokens()) As String()
     On Error GoTo ArrayString_Error
 
     ReDim Arr(UBound(tokens)) As String
-    Dim i As Long
-    For i = 0 To UBound(tokens)
-        Arr(i) = tokens(i)
+    Dim I As Long
+    For I = 0 To UBound(tokens)
+        Arr(I) = tokens(I)
     Next
     ArrayString = Arr
 
@@ -2799,7 +2799,8 @@ End Function
 ' ----------------------------------------------------------------
 Public Sub getgblNetworkArray(ByRef thisArray() As String, ByRef thisBandwidth() As Long, ByRef thisNetworkCount As Integer)
 
-    Dim i As Integer: i = 0
+    Dim I As Integer: I = 0
+    Dim j As Integer: j = 0
     Dim WQL As String: WQL = vbNullString
     Dim oWMI As Object
     Dim instances As Object
@@ -2813,18 +2814,53 @@ Public Sub getgblNetworkArray(ByRef thisArray() As String, ByRef thisBandwidth()
     'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface - ALL instances of this class and derived classes
     Set instances = oWMI.InstancesOf("Win32_PerfRawData_Tcpip_NetworkInterface", 1)
     
+
+    ' get all ip enabled apapters (each will have a MAC address, so no need to double check)
+'    Set instances = GetObject("winmgmts:{impersonationLevel=impersonate}").ExecQuery("SELECT * FROM Win32_NetworkAdapterConfiguration WHERE IPEnabled = TRUE")
+'
+'    thisNetworkCount = instances.Count
+'    For Each instance In instances
+'        Debug.Print ("Caption : " & instance.Caption)
+'        Debug.Print ("Description : " & instance.Description)
+'    Next
+
+
+''j = 1
+''Set instances = GetObject("winmgmts:{impersonationLevel=impersonate}").ExecQuery("SELECT * FROM Win32_NetworkAdapter WHERE DeviceID = '" & j & "'", , 48)
+'
+'
+'    For Each instance In instances
+'        Debug.Print ("AdapterType : " & instance.AdapterType)
+'        Debug.Print ("AdapterTypeID : " & instance.AdapterTypeID)
+'        Debug.Print ("MACAddress : " & instance.MACAddress)
+'        Debug.Print ("NetConnectionStatus : " & instance.NetConnectionStatus)
+'        Debug.Print ("ProductName : " & instance.ProductName)
+'        Debug.Print ("DeviceID : " & instance.DeviceID)
+'        Debug.Print ("Availability : " & instance.Availability)
+'        Debug.Print ("PhysicalAdapter : " & instance.PhysicalAdapter)
+'        Debug.Print ("ServiceName : " & instance.ServiceName)
+'        Debug.Print ("NetConnectionStatus :" & instance.NetConnectionStatus)
+'        Debug.Print ("NetConnectionID : " & instance.NetConnectionID)
+'        Rem debug.print ( "AdapterType : " & instance.AdapterTypeID )
+'        Rem debug.print ( "AdapterType : " & instance.AdapterTypeID )
+'        Rem debug.print ( "AdapterType : " & instance.AdapterTypeID )
+'        Rem debug.print ( "AdapterType : " & instance.AdapterTypeID )
+'        Rem debug.print ( "AdapterType : " & instance.AdapterTypeID )
+'        Debug.Print (" ")
+'    Next
+    
     thisNetworkCount = instances.Count
     ReDim thisArray(thisNetworkCount)
     ReDim thisBandwidth(thisNetworkCount)
 
     For Each instance In instances
       Debug.Print instance.Name 'or other property name
-      thisArray(i) = instance.Name
-      thisBandwidth(i) = Val(instance.CurrentBandwidth)
+      thisArray(I) = instance.Name
+      thisBandwidth(I) = Val(instance.CurrentBandwidth)
       
       Debug.Print "instance.Name", instance.Name 'or other property name
       Debug.Print "CurrentBandwidth", instance.CurrentBandwidth 'or other property name
-      i = i + 1
+      I = I + 1
     Next
         
     On Error GoTo 0
@@ -2839,29 +2875,36 @@ End Sub
 
 ' ----------------------------------------------------------------
 ' Procedure Name: getGblNetworkStats
-' Purpose: Obtains the names of all the Networks from the system
+' Purpose: Obtains the Networks stats of the chosen adapter
 ' Procedure Kind: sub
 ' Procedure Access: public
 ' Author: beededea
 ' Date: 13/01/2024
 ' ----------------------------------------------------------------
-Public Sub getGblNetworkStats(ByRef ibytes As Long, ByRef oBytes As Long)
+Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, ByRef percentageBandwidth As Integer)
 
     Dim strComputer As String: strComputer = vbNullString
     Dim WMIQuery As String: WMIQuery = vbNullString
     Dim objSWbemServices As Object
-    Dim instances As Object
+    Dim instances As Variant
     Dim instance As Object
-    Static ibytesOld As Long ' don't initialise static vars
-    Static obytesOld As Long ' don't initialise static vars
-    Dim bandWidth As Long: bandWidth = 0
+    Static ibytesOld As Double ' don't initialise static vars
+    Static obytesOld As Double ' don't initialise static vars
+    Dim bandWidth As Double: bandWidth = 0
     Dim newTimeStamp As Date: newTimeStamp = #1/1/2000 12:00:00 PM#
     Static oldTimeStamp As Date ' don't initialise static vars
     Dim Interval As Long: Interval = 0
-    Dim ibps As Long: ibps = 0
-    Dim obps As Long: obps = 0
-    Dim bndw As Long: bndw = 0
-
+    Dim ibps As Double: ibps = 0
+    Dim obps As Double: obps = 0
+    Dim bndw As Double: bndw = 0
+    Static timerCount As Integer
+    Dim timerCountModulo As Integer: timerCount = 0
+    Dim speedIndex As Long
+    Dim curSpeed As Long
+    
+    'we use a variant to populate a static array
+    Dim maxSpeed As Variant
+    
     On Error GoTo getGblNetworkStats_Error
     
     strComputer = "."  ' localhost
@@ -2869,30 +2912,31 @@ Public Sub getGblNetworkStats(ByRef ibytes As Long, ByRef oBytes As Long)
     'Get base WMI object, "." means computer name (local)
     Set objSWbemServices = GetObject("WINMGMTS:\\" & strComputer & "\ROOT\cimv2")
     
-    'PzGCurrentAdapter = "Intel[R] Ethernet Connection [2] I219-V" ' this is a 0 or a 1
-    
-    'Create a WMI query string
+    'Create a WMI query string Win32_PerfFormattedData_Tcpip_NetworkInterface
     WMIQuery = "Select * from Win32_PerfRawData_Tcpip_NetworkInterface Where Name='" & overlayWidget.thisAdapterName & "'"
 
-'    'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface
+   'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface
     Set instances = objSWbemServices.ExecQuery(WMIQuery)
 
     For Each instance In instances
-        Debug.Print instance.Name 'or other property name
-        Debug.Print "BytesReceivedPersec", instance.BytesReceivedPersec 'or other property name
-        Debug.Print "BytesSentPerSec", instance.BytesSentPerSec 'or other property name
-        'Debug.Print "CurrentBandwidth", instance.CurrentBandwidth 'or other property name
+'        Debug.Print instance.Name 'or other property name
+'        Debug.Print "BytesReceivedPersec", instance.BytesReceivedPersec 'or other property name
+'        Debug.Print "BytesSentPerSec", instance.BytesSentPerSec 'or other property name
         
-        ibytes = Val(instance.BytesReceivedPersec)
+        ibytes = Val(instance.BytesReceivedPerSec)
         oBytes = Val(instance.BytesSentPerSec)
-        'bandWidth = Val(instance.CurrentBandwidth)
-    Next
+    Next instance
     
     If (ibytes < 0) Then
         ibytes = ibytes + 4294967296#
     End If
     If (oBytes < 0) Then
         ibytes = ibytes + 4294967296#
+    End If
+    
+    If ibytes = 0 And oBytes = 0 Then
+        'debug catch
+        ibytes = 0
     End If
     
     newTimeStamp = Now
@@ -2919,48 +2963,37 @@ Public Sub getGblNetworkStats(ByRef ibytes As Long, ByRef oBytes As Long)
     ibytesOld = ibytes
     obytesOld = oBytes
     
-    Dim timerCount As Integer: timerCount = 0
-    Dim timerCountModulo As Integer: timerCount = 0
-    Dim percentageBandwidth As Integer: percentageBandwidth = 0
-    Dim maxBytes As Long: maxBytes = 0
-    Dim bytes As Long: bytes = 0
-    Dim speedIndex As Long
-    Dim curSpeed As Long
-    'using a variant we populate an array
-    Dim maxSpeed As Variant
-    
-    maxSpeed = Array(1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64)
+    'using a variant we populate a static array in the old school way
+    maxSpeed = Array(1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 100)
         
     timerCount = 1
     timerCountModulo = 10
     bytes = ibps + obps
 
-    'Debug.Print (">>>>>>>>>>>>> devName: " & devName)
-    Debug.Print (">>>>>>>>>>>>> ibps: " & ibps)
-    Debug.Print (">>>>>>>>>>>>> obps: " & obps)
+'    Debug.Print (">>>>>>>>>>>>> ibps: " & ibps)
+'    Debug.Print (">>>>>>>>>>>>> obps: " & obps)
 
     If (bytes > maxBytes) Then
         maxBytes = bytes
         curSpeed = Str$(maxSpeed(fMaximumSpeedIndex(maxSpeed, maxBytes, UBound(maxSpeed))))
-        PzGMaxSpeedPref = curSpeed
+        PzGMaxSpeed = curSpeed
         Debug.Print ("---- 1 speeds ----")
         Debug.Print ("maxBytes: " & Format(maxBytes, "0.00"))
-        Debug.Print ("Maximum Speed: " & PzGMaxSpeedPref)
-        Debug.Print ("Minimum Speed: " & maxSpeed(PzGMinSpeedPref))
+        Debug.Print ("Maximum Speed: " & PzGMaxSpeed)
+        Debug.Print ("Minimum Speed: " & maxSpeed(PzGMinSpeed))
     Else
         timerCount = (timerCount + 1) Mod timerCountModulo
         If (timerCount = 0) Then
             speedIndex = fMaximumSpeedIndex(maxSpeed(), maxBytes, UBound(maxSpeed))
-            If ((speedIndex > PzGMinSpeedPref) And (bytes < 125000 * maxSpeed(speedIndex - 1))) Then
+            If ((speedIndex > PzGMinSpeed) And (bytes < 125000 * maxSpeed(speedIndex - 1))) Then
                 maxBytes = 125000 * maxSpeed(speedIndex - 1)
                 curSpeed = Str$(maxSpeed(speedIndex - 1))
-                PzGMaxSpeedPref = curSpeed
+                PzGMaxSpeed = curSpeed
                 Debug.Print ("---- 2 speeds ----")
                 Debug.Print ("maxBytes: " & Format(maxBytes, "0.00"))
-                Debug.Print ("Maximum Speed: " & PzGMaxSpeedPref)
-                Debug.Print ("Minimum Speed: " & maxSpeed(PzGMinSpeedPref))
+                Debug.Print ("Maximum Speed: " & PzGMaxSpeed)
+                Debug.Print ("Minimum Speed: " & maxSpeed(PzGMinSpeed))
             Else
-                'dummy()
                 Debug.Print ("dummy line 299")
             End If
         End If
@@ -2981,23 +3014,43 @@ getGblNetworkStats_Error:
 
 End Sub
 
-'======================================================================================
-' Function to find network maximumSpeedIndex
-'======================================================================================
+
+' ----------------------------------------------------------------
+' Procedure Name: fMaximumSpeedIndex
+' Purpose: Function to find network maximumSpeedIndex
+' Procedure Kind: Function
+' Procedure Access: Public
+' Parameter maxSpeed (Variant):
+' Parameter maxBytes (Long):
+' Parameter maxSpeedUbound (Integer):
+' Return Type: Long
+' Author: beededea
+' Date: 04/06/2024
+' ----------------------------------------------------------------
 Function fMaximumSpeedIndex(ByRef maxSpeed As Variant, ByVal maxBytes As Long, ByVal maxSpeedUbound As Integer) As Long
 
+    On Error GoTo fMaximumSpeedIndex_Error
+    
     Dim maxS As Long: maxS = 0
-    Dim i As Long: i = 0
+    Dim I As Long: I = 0
     
     maxS = maxBytes / 125000
     
-    For i = 0 To maxSpeedUbound
-        If maxS <= maxSpeed(i) Then
-            fMaximumSpeedIndex = i
+    For I = 0 To maxSpeedUbound
+        If maxS <= maxSpeed(I) Then
+            fMaximumSpeedIndex = I
             Exit Function
         End If
-    Next i
+    Next I
     fMaximumSpeedIndex = maxSpeedUbound - 1
+
+    
+    On Error GoTo 0
+    Exit Function
+
+fMaximumSpeedIndex_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fMaximumSpeedIndex, line " & Erl & "."
 
 End Function
 
