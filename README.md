@@ -37,27 +37,26 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
  This version was developed on Windows 7 using 32 bit VisualBasic 6 as a FOSS 
  project creating a WoW64 widget for the desktop. 
 
+The following is the VB6 WMI code to extract performance data from Windows. 
 
-     strComputer = "."  ' localhost
-    
-    'Get base WMI object, "." means computer name (local)
+    strComputer = "."  ' localhost
+    ' Get base WMI object, "." means computer name (local)
     Set objSWbemServices = GetObject("WINMGMTS:\\" & strComputer & "\ROOT\cimv2")
-    
-    'Create a WMI query string Win32_PerfFormattedData_Tcpip_NetworkInterface
+    ' Create a WMI query string Win32_PerfFormattedData_Tcpip_NetworkInterface
     WMIQuery = "Select * from Win32_PerfRawData_Tcpip_NetworkInterface Where Name='" & overlayWidget.thisAdapterName & "'"
-
    'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface
     Set instances = objSWbemServices.ExecQuery(WMIQuery)
-
     For Each instance In instances
 '        Debug.Print instance.Name 'or other property name
 '        Debug.Print "BytesReceivedPersec", instance.BytesReceivedPersec 'or other property name
-'        Debug.Print "BytesSentPerSec", instance.BytesSentPerSec 'or other property name
-        
+'        Debug.Print "BytesSentPerSec", instance.BytesSentPerSec 'or other property name      
         ibytes = Val(instance.BytesReceivedPerSec)
         oBytes = Val(instance.BytesSentPerSec)
     Next instance
  
+The results are then stored on an interval and the results compared to the previous run, calculating a percentage bandwidth based upon a known potential bandwidth baseline.
+I hope the snippet of code might be useful to a VB6-er doing the same.
+
 ![Licence002](https://github.com/yereverluvinunclebert/Panzer-CPU-Gauge-VB6/assets/2788342/a24c5c45-5517-4423-938b-398f1d349d4c)
 
  It is open source to allow easy configuration, bug-fixing, enhancement and 
