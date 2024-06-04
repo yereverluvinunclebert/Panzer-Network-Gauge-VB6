@@ -143,9 +143,9 @@ Public Sub mainRoutine(ByVal restart As Boolean)
     Call makeVisibleFormElements
         
     ' get the list of Network and the count
-    Call getgblNetworkArray(gblNetworkIDArray(), gblNetworkCount)
+    Call getgblNetworkArray(gblNetworkIDArray(), gblBandwidthArray(), gblNetworkCount)
     
-    Call getGblNetworkStats
+    Call getGblNetworkStats(ibytes, oBytes)
     
     Debug.Print gblNetworkIDArray(0)
     Debug.Print gblNetworkCount
@@ -296,6 +296,9 @@ Private Sub initialiseGlobalVars()
     PzGHidingTime = vbNullString
     PzGIgnoreMouse = vbNullString
     PzGFirstTimeRun = vbNullString
+    
+    PzGMaxSpeedPref = vbNullString
+    PzGMinSpeedPref = vbNullString
     
     ' general storage variables declared
     PzGSettingsDir = vbNullString
@@ -525,9 +528,9 @@ Public Sub adjustMainControls()
         fAlpha.gaugeForm.Widgets("housing/lockbutton").Widget.Alpha = 0
     End If
 
-    'If PzGPercentNetwork <> "" Then overlayWidget.thisNetwork = PzGPercentNetwork
+    If PzGCurrentAdapter <> "" Then overlayWidget.thisAdapterName = panzerPrefs.cmbCurrentAdapter.List(Val(PzGCurrentAdapter))
     
-    overlayWidget.thisNetworkNo = Val(PzGCurrentAdapter)
+    'overlayWidget.thisNetworkNo = Val(PzGCurrentAdapter)
     overlayWidget.thisOpacity = Val(PzGOpacity)
     overlayWidget.samplingInterval = Val(PzGSamplingInterval)
     
@@ -667,6 +670,10 @@ Public Sub readSettingsFile(ByVal location As String, ByVal PzGSettingsFile As S
          
         PzGFirstTimeRun = fGetINISetting(location, "firstTimeRun", PzGSettingsFile)
         
+        PzGMaxSpeedPref = fGetINISetting(location, "maxSpeedPref", PzGSettingsFile)
+        PzGMinSpeedPref = fGetINISetting(location, "minSpeedPref", PzGSettingsFile)
+        
+        
     End If
 
    On Error GoTo 0
@@ -755,6 +762,10 @@ Public Sub validateInputs()
         If PzGFirstTimeRun = vbNullString Then PzGFirstTimeRun = "true"
         If PzGLastSelectedTab = vbNullString Then PzGLastSelectedTab = "general"
         If PzGSkinTheme = vbNullString Then PzGSkinTheme = "dark"
+        
+        If PzGMaxSpeedPref = vbNullString Then PzGMaxSpeedPref = "0"
+        If PzGMinSpeedPref = vbNullString Then PzGMinSpeedPref = "0"
+       
         
    On Error GoTo 0
    Exit Sub

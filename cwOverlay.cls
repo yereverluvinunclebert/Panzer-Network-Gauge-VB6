@@ -46,13 +46,13 @@ Private animateCCW As Boolean
 
 Private SDeg As Double
 
-Private LastMoment As Date, LastRecvBytes As Long, LastSentBytes As Long
+'Private LastMoment As Date, LastRecvBytes As Long, LastSentBytes As Long
 
 Private mTicking As Boolean             ' property Ticking
 Private mPointerAnimate As Boolean    ' property PointerAnimate
 Private mLocked As Boolean              ' property Locked
 Private mHidden As Boolean              ' property Hidden
-Private mThisNetwork As String            ' property thisNetwork
+Private mThisAdapterName As String            ' property thisAdapterName
 Private mThisNetworkNo As Integer          ' property thisNetwork
 Private mThisOpacity As String          ' property ThisOpacity
 Private mSamplingInterval As String     ' property SamplingInterval
@@ -85,7 +85,7 @@ Private Sub Class_Initialize()
     Set tmrAnimator = Nothing
     Set tmrAnimator = New_c.Timer(animationInterval, False)
     
-    mThisNetwork = 0
+    'mThisNetwork = 0
     
     ' get the list of Networks and the count
     'Call getgblNetworkArray(NetworkArray(), NetworkCount)
@@ -171,12 +171,6 @@ Public Property Let Ticking(ByVal newValue As Boolean)
     If mTicking <> newValue Then mTicking = newValue Else Exit Property
     
     If mTicking Then
-'        If mPointerAnimate Then
-'            'intervalValue = 100
-'        Else
-'            'intervalValue = 500
-'        End If
-
         tmrSampler.Enabled = True
     Else
         tmrSampler.Enabled = False
@@ -312,92 +306,92 @@ End Property
 
 
 '---------------------------------------------------------------------------------------
-' Property : thisNetwork
+' Property : thisAdapterName
 ' Author    : beededea
 ' Date      : 17/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Get thisNetwork() As String
-   On Error GoTo thisNetworkGet_Error
+Public Property Get thisAdapterName() As String
+   On Error GoTo thisAdapterNameGet_Error
 
-    thisNetwork = mThisNetwork
+    thisAdapterName = mThisAdapterName
 
    On Error GoTo 0
    Exit Property
 
-thisNetworkGet_Error:
+thisAdapterNameGet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisNetwork of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisAdapterName of Class Module cwOverlay"
 End Property
 '---------------------------------------------------------------------------------------
-' Property  : thisNetwork
+' Property  : thisAdapterName
 ' Author    :
 ' Date      : 09/05/2023
 ' Purpose   :
 '---------------------------------------------------------------------------------------
 '
-Public Property Let thisNetwork(ByVal newValue As String)
-    On Error GoTo thisNetworkLet_Error
+Public Property Let thisAdapterName(ByVal newValue As String)
+    On Error GoTo thisAdapterNameLet_Error
 
-    If mThisNetwork <> newValue Then mThisNetwork = newValue Else Exit Property
+    If mThisAdapterName <> newValue Then mThisAdapterName = newValue Else Exit Property
     
-    'Call obtainNetworks
-    
-    On Error GoTo 0
-    Exit Property
-
-thisNetworkLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisNetwork of Class Module cwOverlay"
-End Property
-
-
-'---------------------------------------------------------------------------------------
-' Property : thisNetwork
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Public Property Get thisNetworkNo() As Integer
-   On Error GoTo thisNetworkNoGet_Error
-
-    thisNetworkNo = mThisNetworkNo
-
-   On Error GoTo 0
-   Exit Property
-
-thisNetworkNoGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisNetworkNo of Class Module cwOverlay"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : thisNetworkNo
-' Author    :
-' Date      : 09/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Public Property Let thisNetworkNo(ByVal newValue As Integer)
-    On Error GoTo thisNetworkNoLet_Error
-
-    If mThisNetworkNo <> newValue Then mThisNetworkNo = newValue Else Exit Property
-            
-    'given a Network number select the Network string
-    If mThisNetworkNo < gblNetworkCount Then
-        mThisNetwork = gblNetworkIDArray(mThisNetworkNo)
-    End If
-    
-    'Call obtainNetworks
+    ' Call getGblNetworkStats(ibytes, oBytes)
     
     On Error GoTo 0
     Exit Property
 
-thisNetworkNoLet_Error:
+thisAdapterNameLet_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisNetworkNo of Class Module cwOverlay"
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisAdapterName of Class Module cwOverlay"
 End Property
+
+
+''---------------------------------------------------------------------------------------
+'' Property : thisNetwork
+'' Author    : beededea
+'' Date      : 17/05/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Public Property Get thisNetworkNo() As Integer
+'   On Error GoTo thisNetworkNoGet_Error
+'
+'    thisNetworkNo = mThisNetworkNo
+'
+'   On Error GoTo 0
+'   Exit Property
+'
+'thisNetworkNoGet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisNetworkNo of Class Module cwOverlay"
+'End Property
+''---------------------------------------------------------------------------------------
+'' Property  : thisNetworkNo
+'' Author    :
+'' Date      : 09/05/2023
+'' Purpose   :
+''---------------------------------------------------------------------------------------
+''
+'Public Property Let thisNetworkNo(ByVal newValue As Integer)
+'    On Error GoTo thisNetworkNoLet_Error
+'
+'    If mThisNetworkNo <> newValue Then mThisNetworkNo = newValue Else Exit Property
+'
+'    'given a Network number select the Network string
+'    If mThisNetworkNo < gblNetworkCount Then
+'        mThisNetwork = gblNetworkIDArray(mThisNetworkNo)
+'    End If
+'
+'    'Call obtainNetworks
+'
+'    On Error GoTo 0
+'    Exit Property
+'
+'thisNetworkNoLet_Error:
+'
+'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisNetworkNo of Class Module cwOverlay"
+'End Property
 '---------------------------------------------------------------------------------------
 ' Property : samplingInterval
 ' Author    : beededea
@@ -730,18 +724,16 @@ Private Sub tmrSampler_Timer()
     Dim degDiff As Double: degDiff = 0
     
     On Error GoTo tmrSampler_Timer_Error
-
+    
+    tmrSampler.Enabled = False
+            
     If mPointerAnimate = True Then
         If tmrAnimator.Enabled = False Then
-            'tmrSampler.Enabled = False
-            
+
             ' oldSDeg stored
             oldSDeg = SDeg
             
-            ' get the list of Network and the count
-            'Call getgblNetworkArray(gblNetworkIDArray(), gblNetworkCount)
-            
-            Call getGblNetworkStats '(gblNetworkIDArray(), gblNetworkPercentArray(), gblNetworkCount)
+            Call getGblNetworkStats(ibytes, oBytes)
     
             'Debug.Print (thisNetworkPercentArray(0))
         
@@ -780,7 +772,7 @@ Private Sub tmrSampler_Timer()
             ' divide that by 24 (one second duration)
             animationQuanta = Abs(degDiff / animationDivisions)
             
-            'tmrAnimator.Enabled = True
+            tmrAnimator.Enabled = True
             
         End If
     Else
@@ -813,12 +805,7 @@ End Sub
 Private Sub obtainNetworks()
     On Error GoTo obtainNetworks_Error
     
-        ' get the list of Networks and the count
-        'Call getgblNetworkArray(gblNetworkIDArray(), gblNetworkCount)
-        
-        Call getGblNetworkStats
-        
-        Debug.Print gblNetworkIDArray(0)
+
     
         If mThisNetworkNo <> "9999" Then
             NetworkPercent = Network_Usage_Percent
@@ -854,6 +841,10 @@ Private Function Network_Usage_Percent() As Long
     
      newT = 0
 '    newT = gblNetworkPercentArray(0)
+
+    Call getGblNetworkStats(ibytes, oBytes)
+        
+    'Debug.Print gblNetworkIDArray(0)
 
     Network_Usage_Percent = newT
      

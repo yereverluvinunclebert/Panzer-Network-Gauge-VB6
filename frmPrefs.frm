@@ -2132,7 +2132,7 @@ Private Sub cmbCurrentAdapter_Click()
     PzGCurrentAdapter = cmbCurrentAdapter.ListIndex
     sPutINISetting "Software\PzNetworkGauge", "currentAdapter", PzGCurrentAdapter, PzGSettingsFile
     
-    overlayWidget.thisNetworkNo = cmbCurrentAdapter.ListIndex
+    'overlayWidget.thisNetworkNo = cmbCurrentAdapter.ListIndex
     
     On Error GoTo 0
     Exit Sub
@@ -3433,6 +3433,8 @@ Private Sub btnSave_Click()
         sPutINISetting "Software\PzNetworkGauge", "clockLowDpiXPos", PzGClockLowDpiXPos, PzGSettingsFile
         sPutINISetting "Software\PzNetworkGauge", "clockLowDpiYPos", PzGClockLowDpiYPos, PzGSettingsFile
         
+        sPutINISetting "Software\PzNetworkGauge", "maxSpeedPref", PzGMaxSpeedPref, PzGSettingsFile
+        sPutINISetting "Software\PzNetworkGauge", "minSpeedPref", PzGMinSpeedPref, PzGSettingsFile
 
         'save the values from the Text Items
 
@@ -3610,7 +3612,7 @@ End Sub
 '
 Private Sub adjustPrefsControls()
     
-    Dim I As Integer: I = 0
+    Dim i As Integer: i = 0
     Dim fntWeight As Integer: fntWeight = 0
     Dim fntStyle As Boolean: fntStyle = False
     Dim sliGaugeSizeOldValue As Long: sliGaugeSizeOldValue = 0
@@ -3744,7 +3746,7 @@ End Sub
 '---------------------------------------------------------------------------------------
 
 Private Sub populatePrefsComboBoxes()
-    Dim I As Integer: I = 0
+    Dim i As Integer: i = 0
     
     On Error GoTo populatePrefsComboBoxes_Error
     
@@ -3811,11 +3813,11 @@ Private Sub populatePrefsComboBoxes()
     cmbTickSwitchPref.AddItem "Smooth", 1
     cmbTickSwitchPref.ItemData(1) = 1
     
-    For I = 0 To (gblNetworkCount - 1)
-        If gblNetworkIDArray(I) = "" Then Exit For
-        cmbCurrentAdapter.AddItem "Network " & (I + 1) & " " & gblNetworkIDArray(I) & " " & gblNetworkIDArray(I), I
-        cmbCurrentAdapter.ItemData(I) = I
-    Next I
+    For i = 0 To (gblNetworkCount - 1)
+        If gblNetworkIDArray(i) = "" Then Exit For
+        cmbCurrentAdapter.AddItem gblNetworkIDArray(i), i
+        cmbCurrentAdapter.ItemData(i) = i
+    Next i
 '    cmbCurrentAdapter.AddItem "none", I
 '    cmbCurrentAdapter.ItemData(I) = 9999
     
