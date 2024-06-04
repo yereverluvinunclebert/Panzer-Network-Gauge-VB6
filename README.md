@@ -2,7 +2,7 @@
  
   A FOSS Network Gauge VB6 WoW64 Widget for Reactos, XP, Win7, 8 and 10/11+.
  
- My current VB6/RC6 PSD program being worked upon now, about 75% complete, awaiting, new code to calculate the network bandwidth percentage, testing on Windows XP and Win7 32bit and some multi-monitor checking, completion of the CHM help file and the creation of the setup.exe. This Panzer widget is based upon the Yahoo/Konfabulator widget of the same visual design and very similar operation.
+ My current VB6/RC6 PSD program being worked upon now, about 95% complete, now calculating the network bandwidth percentage using WMI, awaiting testing on Windows XP and Win7 32bit and some multi-monitor checking, completion of the CHM help file and the creation of the setup.exe. This Panzer widget is based upon the Yahoo/Konfabulator widget of the same visual design and very similar operation.
 
  Why VB6? Well, with a 64 bit, modern-language improvement upgrade on the way with 100% compatible TwinBasic coupled with support for transparent PNGs via RC/Cairo, VB6 code has an amazing future.
 
@@ -36,6 +36,27 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
 
  This version was developed on Windows 7 using 32 bit VisualBasic 6 as a FOSS 
  project creating a WoW64 widget for the desktop. 
+
+
+     strComputer = "."  ' localhost
+    
+    'Get base WMI object, "." means computer name (local)
+    Set objSWbemServices = GetObject("WINMGMTS:\\" & strComputer & "\ROOT\cimv2")
+    
+    'Create a WMI query string Win32_PerfFormattedData_Tcpip_NetworkInterface
+    WMIQuery = "Select * from Win32_PerfRawData_Tcpip_NetworkInterface Where Name='" & overlayWidget.thisAdapterName & "'"
+
+   'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface
+    Set instances = objSWbemServices.ExecQuery(WMIQuery)
+
+    For Each instance In instances
+'        Debug.Print instance.Name 'or other property name
+'        Debug.Print "BytesReceivedPersec", instance.BytesReceivedPersec 'or other property name
+'        Debug.Print "BytesSentPerSec", instance.BytesSentPerSec 'or other property name
+        
+        ibytes = Val(instance.BytesReceivedPerSec)
+        oBytes = Val(instance.BytesSentPerSec)
+    Next instance
  
 ![Licence002](https://github.com/yereverluvinunclebert/Panzer-CPU-Gauge-VB6/assets/2788342/a24c5c45-5517-4423-938b-398f1d349d4c)
 
