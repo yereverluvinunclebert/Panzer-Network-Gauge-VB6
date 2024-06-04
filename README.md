@@ -39,6 +39,7 @@ The Panzer Network Gauge VB6 is a useful utility displaying the Network strength
 
 The following is the VB6 WMI code to extract performance data from Windows. 
 
+```
     strComputer = "."  ' localhost
     ' Get base WMI object, "." means computer name (local)
     Set objSWbemServices = GetObject("WINMGMTS:\\" & strComputer & "\ROOT\cimv2")
@@ -53,6 +54,7 @@ The following is the VB6 WMI code to extract performance data from Windows.
         ibytes = Val(instance.BytesReceivedPerSec)
         oBytes = Val(instance.BytesSentPerSec)
     Next instance
+```
  
 The results are then stored on an interval and the results compared to the previous run, calculating a percentage bandwidth based upon a known potential bandwidth baseline.
 I hope the snippet of code might be useful to a VB6-er doing the same.
