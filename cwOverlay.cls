@@ -304,51 +304,6 @@ thisAdapterNameLet_Error:
 End Property
 
 
-''---------------------------------------------------------------------------------------
-'' Property : thisNetwork
-'' Author    : beededea
-'' Date      : 17/05/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Public Property Get thisNetworkNo() As Integer
-'   On Error GoTo thisNetworkNoGet_Error
-'
-'    thisNetworkNo = mThisNetworkNo
-'
-'   On Error GoTo 0
-'   Exit Property
-'
-'thisNetworkNoGet_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisNetworkNo of Class Module cwOverlay"
-'End Property
-''---------------------------------------------------------------------------------------
-'' Property  : thisNetworkNo
-'' Author    :
-'' Date      : 09/05/2023
-'' Purpose   :
-''---------------------------------------------------------------------------------------
-''
-'Public Property Let thisNetworkNo(ByVal newValue As Integer)
-'    On Error GoTo thisNetworkNoLet_Error
-'
-'    If mThisNetworkNo <> newValue Then mThisNetworkNo = newValue Else Exit Property
-'
-'    'given a Network number select the Network string
-'    If mThisNetworkNo < gblNetworkCount Then
-'        mThisNetwork = gblNetworkIDArray(mThisNetworkNo)
-'    End If
-'
-'    'Call obtainNetworks
-'
-'    On Error GoTo 0
-'    Exit Property
-'
-'thisNetworkNoLet_Error:
-'
-'    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisNetworkNo of Class Module cwOverlay"
-'End Property
 '---------------------------------------------------------------------------------------
 ' Property : samplingInterval
 ' Author    : beededea
