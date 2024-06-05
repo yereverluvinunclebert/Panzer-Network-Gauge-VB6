@@ -34,8 +34,10 @@ DONE
 
 TODO
 
-
-' more information signal noise &c
+just IN
+just OUT
+ensure that the base Max speed is being read in and used
+balloon tooltips current information
 
 ' html help and images update
 ' chm help built

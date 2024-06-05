@@ -172,6 +172,9 @@ Private Sub settingsTimer_Timer()
         fAlpha.gaugeForm.Visible = True
         sPutINISetting "Software\PzNetworkGauge", "unhide", vbNullString, PzGSettingsFile
     End If
+    
+    ' regularly save the PzGMaxSpeed
+    sPutINISetting "Software\PzNetworkGauge", "maxSpeed", PzGMaxSpeed, PzGSettingsFile
 
     On Error GoTo 0
     Exit Sub

@@ -2173,6 +2173,7 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     Unload panzerPrefs
     Unload frmTimer
     Unload menuForm
+    Unload frmMessage
 
     fMain.aboutForm.Unload  ' RC6's own method for killing forms
     fMain.helpForm.Unload
@@ -2182,14 +2183,14 @@ Public Sub unloadAllForms(ByVal endItAll As Boolean)
     ' remove all variable references to each form in turn
     
     Set panzerPrefs = Nothing
+    Set frmTimer = Nothing
+    Set menuForm = Nothing
+    Set frmMessage = Nothing
+    
     Set fMain.aboutForm = Nothing
     Set fMain.helpForm = Nothing
     Set fAlpha.gaugeForm = Nothing
     Set fMain.licenceForm = Nothing
-    
-    'Set frmLicence = Nothing
-    Set frmTimer = Nothing
-    Set menuForm = Nothing
     
     If endItAll = True Then End
 
@@ -2814,41 +2815,6 @@ Public Sub getgblNetworkArray(ByRef thisArray() As String, ByRef thisBandwidth()
     'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface - ALL instances of this class and derived classes
     Set instances = oWMI.InstancesOf("Win32_PerfRawData_Tcpip_NetworkInterface", 1)
     
-
-    ' get all ip enabled apapters (each will have a MAC address, so no need to double check)
-'    Set instances = GetObject("winmgmts:{impersonationLevel=impersonate}").ExecQuery("SELECT * FROM Win32_NetworkAdapterConfiguration WHERE IPEnabled = TRUE")
-'
-'    thisNetworkCount = instances.Count
-'    For Each instance In instances
-'        Debug.Print ("Caption : " & instance.Caption)
-'        Debug.Print ("Description : " & instance.Description)
-'    Next
-
-
-''j = 1
-''Set instances = GetObject("winmgmts:{impersonationLevel=impersonate}").ExecQuery("SELECT * FROM Win32_NetworkAdapter WHERE DeviceID = '" & j & "'", , 48)
-'
-'
-'    For Each instance In instances
-'        Debug.Print ("AdapterType : " & instance.AdapterType)
-'        Debug.Print ("AdapterTypeID : " & instance.AdapterTypeID)
-'        Debug.Print ("MACAddress : " & instance.MACAddress)
-'        Debug.Print ("NetConnectionStatus : " & instance.NetConnectionStatus)
-'        Debug.Print ("ProductName : " & instance.ProductName)
-'        Debug.Print ("DeviceID : " & instance.DeviceID)
-'        Debug.Print ("Availability : " & instance.Availability)
-'        Debug.Print ("PhysicalAdapter : " & instance.PhysicalAdapter)
-'        Debug.Print ("ServiceName : " & instance.ServiceName)
-'        Debug.Print ("NetConnectionStatus :" & instance.NetConnectionStatus)
-'        Debug.Print ("NetConnectionID : " & instance.NetConnectionID)
-'        Rem debug.print ( "AdapterType : " & instance.AdapterTypeID )
-'        Rem debug.print ( "AdapterType : " & instance.AdapterTypeID )
-'        Rem debug.print ( "AdapterType : " & instance.AdapterTypeID )
-'        Rem debug.print ( "AdapterType : " & instance.AdapterTypeID )
-'        Rem debug.print ( "AdapterType : " & instance.AdapterTypeID )
-'        Debug.Print (" ")
-'    Next
-    
     thisNetworkCount = instances.Count
     ReDim thisArray(thisNetworkCount)
     ReDim thisBandwidth(thisNetworkCount)
@@ -2903,7 +2869,7 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     Dim curSpeed As Long
     
     'we use a variant to populate a static array
-    Dim maxSpeed As Variant
+    Dim maxSpeedVArray As Variant
     
     On Error GoTo getGblNetworkStats_Error
     
@@ -2964,7 +2930,7 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     obytesOld = oBytes
     
     'using a variant we populate a static array in the old school way
-    maxSpeed = Array(1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 100)
+    maxSpeedVArray = Array(1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 100)
         
     timerCount = 1
     timerCountModulo = 10
@@ -2975,24 +2941,26 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
 
     If (bytes > maxBytes) Then
         maxBytes = bytes
-        curSpeed = Str$(maxSpeed(fMaximumSpeedIndex(maxSpeed, maxBytes, UBound(maxSpeed))))
+        ' get the matching speed from the array
+        curSpeed = Str$(maxSpeedVArray(fMaximumSpeedIndex(maxSpeedVArray, maxBytes, UBound(maxSpeedVArray))))
         PzGMaxSpeed = curSpeed
         Debug.Print ("---- 1 speeds ----")
         Debug.Print ("maxBytes: " & Format(maxBytes, "0.00"))
         Debug.Print ("Maximum Speed: " & PzGMaxSpeed)
-        Debug.Print ("Minimum Speed: " & maxSpeed(PzGMinSpeed))
+        Debug.Print ("Minimum Speed: " & maxSpeedVArray(PzGMinSpeed))
     Else
         timerCount = (timerCount + 1) Mod timerCountModulo
         If (timerCount = 0) Then
-            speedIndex = fMaximumSpeedIndex(maxSpeed(), maxBytes, UBound(maxSpeed))
-            If ((speedIndex > PzGMinSpeed) And (bytes < 125000 * maxSpeed(speedIndex - 1))) Then
-                maxBytes = 125000 * maxSpeed(speedIndex - 1)
-                curSpeed = Str$(maxSpeed(speedIndex - 1))
+            ' get the matching speed from the array
+            speedIndex = fMaximumSpeedIndex(maxSpeedVArray(), maxBytes, UBound(maxSpeedVArray))
+            If ((speedIndex > PzGMinSpeed) And (bytes < 125000 * maxSpeedVArray(speedIndex - 1))) Then
+                maxBytes = 125000 * maxSpeedVArray(speedIndex - 1)
+                curSpeed = Str$(maxSpeedVArray(speedIndex - 1))
                 PzGMaxSpeed = curSpeed
                 Debug.Print ("---- 2 speeds ----")
                 Debug.Print ("maxBytes: " & Format(maxBytes, "0.00"))
                 Debug.Print ("Maximum Speed: " & PzGMaxSpeed)
-                Debug.Print ("Minimum Speed: " & maxSpeed(PzGMinSpeed))
+                Debug.Print ("Minimum Speed: " & maxSpeedVArray(PzGMinSpeed))
             Else
                 Debug.Print ("dummy line 299")
             End If

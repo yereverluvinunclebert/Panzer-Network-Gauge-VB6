@@ -52,10 +52,10 @@ Begin VB.Form panzerPrefs
                Strikethrough   =   0   'False
             EndProperty
             Height          =   300
-            Left            =   5805
+            Left            =   5415
             Style           =   1  'Graphical
             TabIndex        =   167
-            Top             =   1950
+            Top             =   2340
             Width           =   285
          End
          Begin VB.ComboBox cmbNetworkTraffic 
@@ -157,7 +157,7 @@ Begin VB.Form panzerPrefs
             Width           =   3810
          End
          Begin VB.Label lblGeneral 
-            Caption         =   "Select the network adapter to monitor here or by using the middle button on the gauge surround. *"
+            Caption         =   "Select the network adapter to monitor here *"
             Height          =   660
             Index           =   1
             Left            =   2040
@@ -2172,13 +2172,39 @@ cmbCurrentAdapter_Click_Error:
 End Sub
 
 
-
-
-
-
 Private Sub btnMoreCmbCurrentAdapter_Click()
     cmbCurrentAdapter.Width = 7500
     btnMoreCmbCurrentAdapter.Visible = False
+End Sub
+
+' ----------------------------------------------------------------
+' Procedure Name: cmbMaxSpeed_Click
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 05/06/2024
+' ----------------------------------------------------------------
+Private Sub cmbMaxSpeed_Click()
+    On Error GoTo cmbMaxSpeed_Click_Error
+    
+    If prefsStartupFlg = False Then ' don't run this on startup
+        btnSave.Enabled = True ' enable the save button
+        PzGMaxSpeed = cmbMaxSpeed.List(cmbMaxSpeed.ListIndex)
+        sPutINISetting "Software\PzNetworkGauge", "maxSpeed", PzGMaxSpeed, PzGSettingsFile
+    End If
+    
+    On Error GoTo 0
+    Exit Sub
+
+cmbMaxSpeed_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure cmbMaxSpeed_Click, line " & Erl & "."
+
+End Sub
+
+Private Sub cmbNetworkTraffic_Click()
+    btnSave.Enabled = True ' enable the save button
 End Sub
 
 ' ----------------------------------------------------------------
@@ -3640,7 +3666,7 @@ End Sub
 '
 Private Sub adjustPrefsControls()
     
-    Dim i As Integer: i = 0
+    Dim I As Integer: I = 0
     Dim fntWeight As Integer: fntWeight = 0
     Dim fntStyle As Boolean: fntStyle = False
     Dim sliGaugeSizeOldValue As Long: sliGaugeSizeOldValue = 0
@@ -3668,7 +3694,13 @@ Private Sub adjustPrefsControls()
     ' prefs combo matches stored current Network
     cmbCurrentAdapter.ListIndex = Val(PzGCurrentAdapter)
     cmbNetworkTraffic.ListIndex = Val(PzGNetworkTraffic)
-    cmbMaxSpeed.ListIndex = Val(PzGMaxSpeed)
+    
+    For I = 0 To cmbMaxSpeed.ListCount
+        If PzGMaxSpeed = cmbMaxSpeed.List(I) Then
+            cmbMaxSpeed.ListIndex = I
+            Exit For
+        End If
+    Next I
 
     
     sliSamplingInterval.Value = Val(PzGSamplingInterval)
@@ -3775,7 +3807,7 @@ End Sub
 '---------------------------------------------------------------------------------------
 
 Private Sub populatePrefsComboBoxes()
-    Dim i As Integer: i = 0
+    Dim I As Integer: I = 0
     
     On Error GoTo populatePrefsComboBoxes_Error
     
@@ -3842,11 +3874,11 @@ Private Sub populatePrefsComboBoxes()
     cmbTickSwitchPref.AddItem "Smooth", 1
     cmbTickSwitchPref.ItemData(1) = 1
     
-    For i = 0 To (gblNetworkCount - 1)
-        If gblNetworkIDArray(i) = "" Then Exit For
-        cmbCurrentAdapter.AddItem gblNetworkIDArray(i), i
-        cmbCurrentAdapter.ItemData(i) = i
-    Next i
+    For I = 0 To (gblNetworkCount - 1)
+        If gblNetworkIDArray(I) = "" Then Exit For
+        cmbCurrentAdapter.AddItem gblNetworkIDArray(I), I
+        cmbCurrentAdapter.ItemData(I) = I
+    Next I
 '    cmbCurrentAdapter.AddItem "none", I
 '    cmbCurrentAdapter.ItemData(I) = 9999
     

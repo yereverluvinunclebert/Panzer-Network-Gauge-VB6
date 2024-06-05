@@ -56,7 +56,6 @@ Private mThisAdapterName As String            ' property thisAdapterName
 Private mThisNetworkNo As Integer          ' property thisNetwork
 Private mThisOpacity As String          ' property ThisOpacity
 Private mSamplingInterval As String     ' property SamplingInterval
-Private mThisFace As Integer             ' property mThisFace
 
 
 
@@ -264,48 +263,6 @@ End Property
 
 
 '---------------------------------------------------------------------------------------
-' Property : thisNetwork
-' Author    : beededea
-' Date      : 17/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Public Property Get thisFace() As Integer
-   On Error GoTo thisFaceGet_Error
-
-    thisFace = mThisFace
-
-   On Error GoTo 0
-   Exit Property
-
-thisFaceGet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisFace of Class Module cwOverlay"
-End Property
-'---------------------------------------------------------------------------------------
-' Property  : thisFace
-' Author    :
-' Date      : 09/05/2023
-' Purpose   :
-'---------------------------------------------------------------------------------------
-'
-Public Property Let thisFace(ByVal newValue As Integer)
-    On Error GoTo thisFaceLet_Error
-
-    If mThisFace <> newValue Then mThisFace = newValue Else Exit Property
-    
-    'Call obtainNetworks
-    
-    On Error GoTo 0
-    Exit Property
-
-thisFaceLet_Error:
-
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in Property thisFace of Class Module cwOverlay"
-End Property
-
-
-'---------------------------------------------------------------------------------------
 ' Property : thisAdapterName
 ' Author    : beededea
 ' Date      : 17/05/2023
@@ -336,7 +293,7 @@ Public Property Let thisAdapterName(ByVal newValue As String)
 
     If mThisAdapterName <> newValue Then mThisAdapterName = newValue Else Exit Property
     
-    ' Call getGblNetworkStats(bytes, maxBytes, percentageBandwidth)
+    Call Network_Usage_Percent
     
     On Error GoTo 0
     Exit Property
@@ -598,20 +555,11 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
                          
             ' for specific keys perform rotation actions, clock hands &c
              Select Case Key
-                 
-                 Case "fahrenheit"
-                    
-                    If mThisFace = 1 Then
-                        Set Pat.Matrix = Pat.Matrix.TranslateCoords(-Arr(0), -Arr(1)) 'shift the Pattern via the original X,Y PSD-Offsets (stored in Arr(0) and Arr(1))
-                        CC.Paint Arr(2), Pat 'render the Pattern
-                    End If
                     
                  Case "clockface"
                     
-                    If mThisFace = 0 Then
-                        Set Pat.Matrix = Pat.Matrix.TranslateCoords(-Arr(0), -Arr(1))
-                        CC.Paint Arr(2), Pat ' render the Pattern
-                    End If
+                    Set Pat.Matrix = Pat.Matrix.TranslateCoords(-Arr(0), -Arr(1))
+                    CC.Paint Arr(2), Pat ' render the Pattern
                  
                  Case "redlamptrue"
                     
@@ -730,10 +678,6 @@ Private Sub tmrSampler_Timer()
     On Error GoTo tmrSampler_Timer_Error
     
     'tmrSampler.Enabled = False
-    
-    'maxBytes = Val(PzGMaxSpeed)
-    
-
             
     If mPointerAnimate = True Then
         If tmrAnimator.Enabled = False Then
