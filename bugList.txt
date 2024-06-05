@@ -29,6 +29,7 @@ DONE
 ' test autostart - done
 ' smooth pointer - flick/smooth - done
 ' prefs setfocus - done
+' ensure that the base Max speed is being read in and used
 
 ' -oOo-
 
@@ -36,12 +37,12 @@ TODO
 
 just IN
 just OUT
-ensure that the base Max speed is being read in and used
-balloon tooltips current information
+
+balloon tooltips current information, percentage, total bytes in/out and current maximum speed in MB
+test wireless only
 
 ' html help and images update
 ' chm help built
-
 
 ' add second monitor - wip find cable!
 

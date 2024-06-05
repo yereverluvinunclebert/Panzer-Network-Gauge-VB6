@@ -20,7 +20,7 @@ Begin VB.Form panzerPrefs
       Height          =   7890
       Left            =   75
       TabIndex        =   50
-      Top             =   1185
+      Top             =   1170
       Visible         =   0   'False
       Width           =   8670
       Begin VB.Frame fraGeneralInner 
@@ -5582,7 +5582,7 @@ Private Sub setframeHeights()
             Call SaveSizes(panzerPrefs, prefsControlPositions(), prefsCurrentWidth, prefsCurrentHeight)
         'End If
     Else
-        fraGeneral.Height = 6677
+        fraGeneral.Height = 8001
         fraConfig.Height = 6632
         fraSounds.Height = 1992
         fraPosition.Height = 7544

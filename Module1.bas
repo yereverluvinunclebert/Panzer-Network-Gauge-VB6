@@ -2790,6 +2790,11 @@ ArrayString_Error:
 End Function
 
 
+'    'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface - ALL instances of this class and derived classes
+    'Set instances = objSWbemServices.InstancesOf("Win32_PerfRawData_Tcpip_NetworkInterface", 1)
+    
+
+
 ' ----------------------------------------------------------------
 ' Procedure Name: getGblNetworkArray
 ' Purpose: Obtains the names of all the Networks from the system
@@ -2800,34 +2805,44 @@ End Function
 ' ----------------------------------------------------------------
 Public Sub getgblNetworkArray(ByRef thisArray() As String, ByRef thisBandwidth() As Long, ByRef thisNetworkCount As Integer)
 
+    Dim strComputer As String: strComputer = vbNullString
     Dim I As Integer: I = 0
     Dim j As Integer: j = 0
-    Dim WQL As String: WQL = vbNullString
-    Dim oWMI As Object
+    Dim WMIQuery As String: WMIQuery = vbNullString
+    Dim objSWbemServices As Object
     Dim instances As Object
     Dim instance As Object
+    Dim thisMacaddress As String
 
     On Error GoTo getGblNetworkArray_Error
     
+    strComputer = "."  ' localhost
+    
     'Get base WMI object, "." means computer name (local)
-    Set oWMI = GetObject("WINMGMTS:\\.\ROOT\cimv2")
+    Set objSWbemServices = GetObject("WINMGMTS:\\" & strComputer & "\ROOT\CIMV2")
     
-    'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface - ALL instances of this class and derived classes
-    Set instances = oWMI.InstancesOf("Win32_PerfRawData_Tcpip_NetworkInterface", 1)
+    ' it seems that when you do this first call to Win32_PerfRawData_Tcpip_NetworkInterface it initialises the
+    ' data collection, if you use any other WMI method of getting the adapter names the subsequent call to
+    ' Win32_PerfRawData_Tcpip_NetworkInterface in getGblNetworkStats fails to produce data.
+    ' don't change this!
     
+    ' gets all ethernet/wifi devices
+    Set instances = objSWbemServices.InstancesOf("Win32_PerfRawData_Tcpip_NetworkInterface", 1)
+
     thisNetworkCount = instances.Count
     ReDim thisArray(thisNetworkCount)
-    ReDim thisBandwidth(thisNetworkCount)
 
     For Each instance In instances
-      Debug.Print instance.Name 'or other property name
-      thisArray(I) = instance.Name
-      thisBandwidth(I) = Val(instance.CurrentBandwidth)
-      
-      Debug.Print "instance.Name", instance.Name 'or other property name
-      Debug.Print "CurrentBandwidth", instance.CurrentBandwidth 'or other property name
-      I = I + 1
+        Debug.Print "instance.name", instance.Name 'or other property name
+
+        'Debug.Print "instance.name", instance.Name 'or other property name
+        'Debug.Print "instance.macaddress", instance.macaddress 'or other property name
+
+        thisArray(I) = instance.Name ' eg. Intel(R) Wi-Fi 6 AX200 160MHz
+        I = I + 1
+
     Next
+   
         
     On Error GoTo 0
     Exit Sub
@@ -2852,7 +2867,7 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     Dim strComputer As String: strComputer = vbNullString
     Dim WMIQuery As String: WMIQuery = vbNullString
     Dim objSWbemServices As Object
-    Dim instances As Variant
+    Dim instances As Object
     Dim instance As Object
     Static ibytesOld As Double ' don't initialise static vars
     Static obytesOld As Double ' don't initialise static vars
@@ -2867,6 +2882,7 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     Dim timerCountModulo As Integer: timerCount = 0
     Dim speedIndex As Long
     Dim curSpeed As Long
+    Dim thisNetworkCount As Integer: thisNetworkCount = 0
     
     'we use a variant to populate a static array
     Dim maxSpeedVArray As Variant
@@ -2883,12 +2899,17 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
 
    'Get instances of Win32_PerfRawData_Tcpip_NetworkInterface
     Set instances = objSWbemServices.ExecQuery(WMIQuery)
+    
+    thisNetworkCount = instances.Count
 
     For Each instance In instances
 '        Debug.Print instance.Name 'or other property name
 '        Debug.Print "BytesReceivedPersec", instance.BytesReceivedPersec 'or other property name
 '        Debug.Print "BytesSentPerSec", instance.BytesSentPerSec 'or other property name
         
+        'thisBandwidth(I) = Val(instance.CurrentBandwidth)
+        Debug.Print "CurrentBandwidth", instance.CurrentBandwidth 'or other property name
+       
         ibytes = Val(instance.BytesReceivedPerSec)
         oBytes = Val(instance.BytesSentPerSec)
     Next instance
