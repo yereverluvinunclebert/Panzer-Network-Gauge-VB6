@@ -2160,6 +2160,8 @@ Private Sub cmbCurrentAdapter_Click()
     PzGCurrentAdapter = cmbCurrentAdapter.ListIndex
     sPutINISetting "Software\PzNetworkGauge", "currentAdapter", PzGCurrentAdapter, PzGSettingsFile
     
+    overlayWidget.thisAdapterName = cmbCurrentAdapter.List(cmbCurrentAdapter.ListIndex)
+    
     'overlayWidget.thisNetworkNo = cmbCurrentAdapter.ListIndex
     
     On Error GoTo 0

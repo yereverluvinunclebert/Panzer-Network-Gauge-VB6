@@ -165,8 +165,8 @@ Private Sub gaugeForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                      TTIconInfo, widgetName & " Help Button Help", , , , True
             Case Else
                 If PzGEnableBalloonTooltips = "1" Then CreateToolTip gaugeForm.hwnd, "Network Adapter: " & overlayWidget.thisAdapterName _
-                    & vbCrLf & "Current bytes incoming " & ibytes _
-                    & vbCrLf & "Current bytes outgoing " & oBytes _
+                    & vbCrLf & "Current bytes incoming " & Int(ibps) & "bps" _
+                    & vbCrLf & "Current bytes outgoing " & Int(obps) & "bps" _
                     & vbCrLf & "Over regular sampling period of " & PzGSamplingInterval & " secs" _
                     & vbCrLf & vbCrLf & "Right Click to open the menu and the preferences. CTRL+ Mouse scrollwheel UP/DOWN to resize." _
                     , TTIconInfo, widgetName & " Information.", , , , True

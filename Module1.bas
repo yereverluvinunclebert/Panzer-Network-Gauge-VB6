@@ -450,8 +450,8 @@ Public gblNetworkCount As Integer
 '
 'Public m_objIpHelper As CIpHelper
 
-Public ibytes As Double ': ibytes = 0
-Public oBytes As Double ': oBytes = 0
+Public ibps As Double ': ibps = 0
+Public obps As Double ': obps = 0
 
 
 '---------------------------------------------------------------------------------------
@@ -2875,8 +2875,10 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     Dim newTimeStamp As Date: newTimeStamp = #1/1/2000 12:00:00 PM#
     Static oldTimeStamp As Date ' don't initialise static vars
     Dim Interval As Long: Interval = 0
-    Dim ibps As Double: ibps = 0
-    Dim obps As Double: obps = 0
+    Dim ibytes As Double ': ibytes = 0
+    Dim oBytes As Double ': oBytes = 0
+'    Dim ibps As Double: ibps = 0
+'    Dim obps As Double: obps = 0
     Dim bndw As Double: bndw = 0
     Static timerCount As Integer
     Dim timerCountModulo As Integer: timerCount = 0
@@ -2918,7 +2920,7 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
         ibytes = ibytes + 4294967296#
     End If
     If (oBytes < 0) Then
-        ibytes = ibytes + 4294967296#
+        oBytes = oBytes + 4294967296#
     End If
     
     If ibytes = 0 And oBytes = 0 Then
@@ -2934,16 +2936,13 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
         If Interval > 0 Then
             ibps = (ibytes - ibytesOld) / Interval
             obps = (oBytes - obytesOld) / Interval
-            'bndw = bandWidth
         Else
             ibps = 0
             obps = 0
-            'bndw = 0
         End If
     Else
         ibps = 0
         obps = 0
-        'bndw = 0
     End If
     
     oldTimeStamp = newTimeStamp
