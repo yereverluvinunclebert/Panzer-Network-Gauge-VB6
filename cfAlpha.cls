@@ -168,6 +168,7 @@ Private Sub gaugeForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                     & vbCrLf & "Current bytes incoming " & Int(ibps) & "bps" _
                     & vbCrLf & "Current bytes outgoing " & Int(obps) & "bps" _
                     & vbCrLf & "Over regular sampling period of " & PzGSamplingInterval & " secs" _
+                    & vbCrLf & vbCrLf & "Current adapter maximum speed encountered " & PzGMaxSpeed & " mb" _
                     & vbCrLf & vbCrLf & "Right Click to open the menu and the preferences. CTRL+ Mouse scrollwheel UP/DOWN to resize." _
                     , TTIconInfo, widgetName & " Information.", , , , True
         End Select
