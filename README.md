@@ -195,9 +195,8 @@ I hope the snippet of code might be useful to a VB6-er doing the same.
  REGTLIB %SystemRoot%\System32\OLEGUIDS.TLB
  
  In the VB6 IDE - project - references - browse - select the OLEGuids.tlb
- 
-![prefs-about](https://github.com/yereverluvinunclebert/Panzer-CPU-Gauge-VB6/assets/2788342/2349098d-f7df-4084-885e-383a58b87bac)
 
+![prefs-about](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/3f97b88a-279c-484a-b713-e6404e56fb9f)
 
  * SETUP.EXE - The program is currently distributed using setup2go, a very useful 
  and comprehensive installer program that builds a .exe installer. Youll have to 
