@@ -1,5 +1,5 @@
 Attribute VB_Name = "modMain"
-'@IgnoreModule IntegerDataType, ModuleWithoutFolder
+'@IgnoreModule IntegerDataType , ModuleWithoutFolder
 ' gaugeForm_BubblingEvent ' leaving that here so I can copy/paste to find it
 
 Option Explicit
@@ -744,7 +744,7 @@ Public Sub validateInputs()
                 
         ' development
         If PzGDebug = vbNullString Then PzGDebug = "0"
-        If PzGDblClickCommand = vbNullString Then PzGDblClickCommand = "%systemroot%\system32\timedate.cpl"
+        If PzGDblClickCommand = vbNullString Then PzGDblClickCommand = "%systemroot%\system32\ncpa.cpl"
         If PzGOpenFile = vbNullString Then PzGOpenFile = vbNullString
         If PzGDefaultEditor = vbNullString Then PzGDefaultEditor = vbNullString
         

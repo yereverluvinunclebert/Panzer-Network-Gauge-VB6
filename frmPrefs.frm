@@ -14,6 +14,174 @@ Begin VB.Form panzerPrefs
    ScaleWidth      =   8880
    StartUpPosition =   3  'Windows Default
    Visible         =   0   'False
+   Begin VB.Frame fraDevelopment 
+      Caption         =   "Development"
+      Height          =   6210
+      Left            =   240
+      TabIndex        =   48
+      Top             =   1200
+      Visible         =   0   'False
+      Width           =   8520
+      Begin VB.Frame fraDevelopmentInner 
+         BorderStyle     =   0  'None
+         Height          =   5595
+         Left            =   870
+         TabIndex        =   49
+         Top             =   300
+         Width           =   7455
+         Begin VB.Frame fraDefaultEditor 
+            BorderStyle     =   0  'None
+            Height          =   2370
+            Left            =   75
+            TabIndex        =   135
+            Top             =   3165
+            Width           =   7290
+            Begin VB.CommandButton btnDefaultEditor 
+               Caption         =   "..."
+               Height          =   300
+               Left            =   5115
+               Style           =   1  'Graphical
+               TabIndex        =   137
+               ToolTipText     =   "Click to select the .vbp file to edit the program - You need to have access to the source!"
+               Top             =   210
+               Width           =   315
+            End
+            Begin VB.TextBox txtDefaultEditor 
+               Height          =   315
+               Left            =   1440
+               TabIndex        =   136
+               Text            =   " eg. E:\vb6\fire call\FireCallWin.vbp"
+               Top             =   195
+               Width           =   3660
+            End
+            Begin VB.Label lblGitHub 
+               Caption         =   $"frmPrefs.frx":10CA
+               ForeColor       =   &H8000000D&
+               Height          =   915
+               Left            =   1560
+               TabIndex        =   141
+               ToolTipText     =   "Double Click to visit github"
+               Top             =   1440
+               Width           =   4935
+            End
+            Begin VB.Label lblDebug 
+               Caption         =   $"frmPrefs.frx":1165
+               Height          =   930
+               Index           =   9
+               Left            =   1545
+               TabIndex        =   139
+               Top             =   690
+               Width           =   4785
+            End
+            Begin VB.Label lblDebug 
+               Caption         =   "Default Editor :"
+               Height          =   255
+               Index           =   7
+               Left            =   285
+               TabIndex        =   138
+               Tag             =   "lblSharedInputFile"
+               Top             =   225
+               Width           =   1350
+            End
+         End
+         Begin VB.TextBox txtDblClickCommand 
+            Height          =   315
+            Left            =   1515
+            TabIndex        =   61
+            ToolTipText     =   "Enter a Windows command for the gauge to operate when double-clicked."
+            Top             =   1095
+            Width           =   3660
+         End
+         Begin VB.CommandButton btnOpenFile 
+            Caption         =   "..."
+            Height          =   300
+            Left            =   5175
+            Style           =   1  'Graphical
+            TabIndex        =   58
+            ToolTipText     =   "Click to select a particular file for the gauge to run or open when double-clicked."
+            Top             =   2250
+            Width           =   315
+         End
+         Begin VB.TextBox txtOpenFile 
+            Height          =   315
+            Left            =   1515
+            TabIndex        =   57
+            ToolTipText     =   "Enter a particular file for the gauge to run or open when double-clicked."
+            Top             =   2235
+            Width           =   3660
+         End
+         Begin VB.ComboBox cmbDebug 
+            Height          =   315
+            ItemData        =   "frmPrefs.frx":1209
+            Left            =   1530
+            List            =   "frmPrefs.frx":120B
+            Style           =   2  'Dropdown List
+            TabIndex        =   54
+            ToolTipText     =   "Choose to set debug mode."
+            Top             =   -15
+            Width           =   2160
+         End
+         Begin VB.Label lblDebug 
+            Caption         =   "DblClick Command :"
+            Height          =   510
+            Index           =   1
+            Left            =   -15
+            TabIndex        =   63
+            Tag             =   "lblPrefixString"
+            Top             =   1155
+            Width           =   1545
+         End
+         Begin VB.Label lblConfigurationTab 
+            Caption         =   "Shift+double-clicking on the widget image will open this file. "
+            Height          =   375
+            Index           =   6
+            Left            =   1560
+            TabIndex        =   62
+            Top             =   2730
+            Width           =   3705
+         End
+         Begin VB.Label lblDebug 
+            Caption         =   "Default command to run when the gauge receives a double-click eg %SystemRoot%/system32/ncpa.cpl"
+            Height          =   570
+            Index           =   5
+            Left            =   1590
+            TabIndex        =   60
+            Tag             =   "lblSharedInputFileDesc"
+            Top             =   1605
+            Width           =   4410
+         End
+         Begin VB.Label lblDebug 
+            Caption         =   "Open File :"
+            Height          =   255
+            Index           =   4
+            Left            =   645
+            TabIndex        =   59
+            Tag             =   "lblSharedInputFile"
+            Top             =   2280
+            Width           =   1350
+         End
+         Begin VB.Label lblDebug 
+            Caption         =   "Turning on the debugging will provide extra information in the debug window.  *"
+            Height          =   495
+            Index           =   2
+            Left            =   1545
+            TabIndex        =   56
+            Tag             =   "lblAlarmSoundDesc"
+            Top             =   450
+            Width           =   4455
+         End
+         Begin VB.Label lblDebug 
+            Caption         =   "Debug :"
+            Height          =   375
+            Index           =   0
+            Left            =   855
+            TabIndex        =   55
+            Tag             =   "lblAlarmSound"
+            Top             =   45
+            Width           =   1740
+         End
+      End
+   End
    Begin VB.Frame fraGeneral 
       Caption         =   "General"
       ForeColor       =   &H80000008&
@@ -32,9 +200,9 @@ Begin VB.Form panzerPrefs
          Width           =   7935
          Begin VB.ComboBox cmbMaxSpeed 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":10CA
+            ItemData        =   "frmPrefs.frx":120D
             Left            =   2025
-            List            =   "frmPrefs.frx":10CC
+            List            =   "frmPrefs.frx":120F
             Style           =   2  'Dropdown List
             TabIndex        =   168
             Top             =   4020
@@ -51,18 +219,18 @@ Begin VB.Form panzerPrefs
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   300
-            Left            =   5415
+            Height          =   285
+            Left            =   5430
             Style           =   1  'Graphical
             TabIndex        =   167
-            Top             =   2340
+            Top             =   2325
             Width           =   285
          End
          Begin VB.ComboBox cmbNetworkTraffic 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":10CE
+            ItemData        =   "frmPrefs.frx":1211
             Left            =   2010
-            List            =   "frmPrefs.frx":10D0
+            List            =   "frmPrefs.frx":1213
             Style           =   2  'Dropdown List
             TabIndex        =   164
             Top             =   3000
@@ -70,9 +238,9 @@ Begin VB.Form panzerPrefs
          End
          Begin VB.ComboBox cmbCurrentAdapter 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":10D2
+            ItemData        =   "frmPrefs.frx":1215
             Left            =   2025
-            List            =   "frmPrefs.frx":10D4
+            List            =   "frmPrefs.frx":1217
             Style           =   2  'Dropdown List
             TabIndex        =   161
             Top             =   1950
@@ -89,9 +257,9 @@ Begin VB.Form panzerPrefs
          End
          Begin VB.ComboBox cmbTickSwitchPref 
             Height          =   315
-            ItemData        =   "frmPrefs.frx":10D6
+            ItemData        =   "frmPrefs.frx":1219
             Left            =   2010
-            List            =   "frmPrefs.frx":10D8
+            List            =   "frmPrefs.frx":121B
             Style           =   2  'Dropdown List
             TabIndex        =   145
             Top             =   975
@@ -119,6 +287,25 @@ Begin VB.Form panzerPrefs
             Max             =   30
             Value           =   20
             SelStart        =   20
+         End
+         Begin VB.CommandButton btnLessCmbCurrentAdapter 
+            Caption         =   "<"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   285
+            Left            =   5430
+            Style           =   1  'Graphical
+            TabIndex        =   171
+            Top             =   2325
+            Visible         =   0   'False
+            Width           =   285
          End
          Begin VB.Label lblGeneral 
             Caption         =   "Estimate the maximum speed of this network device (in Mbps). This setting will be adjusted automatically as the widget runs."
@@ -353,7 +540,7 @@ Begin VB.Form panzerPrefs
             SelStart        =   5
          End
          Begin VB.Label lblConfiguration 
-            Caption         =   $"frmPrefs.frx":10DA
+            Caption         =   $"frmPrefs.frx":121D
             Height          =   930
             Index           =   0
             Left            =   1980
@@ -647,7 +834,7 @@ Begin VB.Form panzerPrefs
             Width           =   2115
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":118E
+            Caption         =   $"frmPrefs.frx":12D1
             Height          =   3435
             Index           =   12
             Left            =   5145
@@ -667,7 +854,7 @@ Begin VB.Form panzerPrefs
             Width           =   2040
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":1360
+            Caption         =   $"frmPrefs.frx":14A3
             Height          =   705
             Index           =   10
             Left            =   2250
@@ -687,7 +874,7 @@ Begin VB.Form panzerPrefs
             Width           =   2355
          End
          Begin VB.Label lblPosition 
-            Caption         =   $"frmPrefs.frx":13FF
+            Caption         =   $"frmPrefs.frx":1542
             Height          =   3045
             Index           =   6
             Left            =   2265
@@ -705,174 +892,6 @@ Begin VB.Form panzerPrefs
             Tag             =   "lblAlarmSound"
             Top             =   45
             Width           =   2145
-         End
-      End
-   End
-   Begin VB.Frame fraDevelopment 
-      Caption         =   "Development"
-      Height          =   6210
-      Left            =   240
-      TabIndex        =   48
-      Top             =   1200
-      Visible         =   0   'False
-      Width           =   8520
-      Begin VB.Frame fraDevelopmentInner 
-         BorderStyle     =   0  'None
-         Height          =   5595
-         Left            =   870
-         TabIndex        =   49
-         Top             =   300
-         Width           =   7455
-         Begin VB.Frame fraDefaultEditor 
-            BorderStyle     =   0  'None
-            Height          =   2370
-            Left            =   75
-            TabIndex        =   135
-            Top             =   3165
-            Width           =   7290
-            Begin VB.CommandButton btnDefaultEditor 
-               Caption         =   "..."
-               Height          =   300
-               Left            =   5115
-               Style           =   1  'Graphical
-               TabIndex        =   137
-               ToolTipText     =   "Click to select the .vbp file to edit the program - You need to have access to the source!"
-               Top             =   210
-               Width           =   315
-            End
-            Begin VB.TextBox txtDefaultEditor 
-               Height          =   315
-               Left            =   1440
-               TabIndex        =   136
-               Text            =   " eg. E:\vb6\fire call\FireCallWin.vbp"
-               Top             =   195
-               Width           =   3660
-            End
-            Begin VB.Label lblGitHub 
-               Caption         =   $"frmPrefs.frx":15A4
-               ForeColor       =   &H8000000D&
-               Height          =   915
-               Left            =   1560
-               TabIndex        =   141
-               ToolTipText     =   "Double Click to visit github"
-               Top             =   1440
-               Width           =   4935
-            End
-            Begin VB.Label lblDebug 
-               Caption         =   $"frmPrefs.frx":163D
-               Height          =   930
-               Index           =   9
-               Left            =   1545
-               TabIndex        =   139
-               Top             =   690
-               Width           =   4785
-            End
-            Begin VB.Label lblDebug 
-               Caption         =   "Default Editor :"
-               Height          =   255
-               Index           =   7
-               Left            =   285
-               TabIndex        =   138
-               Tag             =   "lblSharedInputFile"
-               Top             =   225
-               Width           =   1350
-            End
-         End
-         Begin VB.TextBox txtDblClickCommand 
-            Height          =   315
-            Left            =   1515
-            TabIndex        =   61
-            ToolTipText     =   "Enter a Windows command for the gauge to operate when double-clicked."
-            Top             =   1095
-            Width           =   3660
-         End
-         Begin VB.CommandButton btnOpenFile 
-            Caption         =   "..."
-            Height          =   300
-            Left            =   5175
-            Style           =   1  'Graphical
-            TabIndex        =   58
-            ToolTipText     =   "Click to select a particular file for the gauge to run or open when double-clicked."
-            Top             =   2250
-            Width           =   315
-         End
-         Begin VB.TextBox txtOpenFile 
-            Height          =   315
-            Left            =   1515
-            TabIndex        =   57
-            ToolTipText     =   "Enter a particular file for the gauge to run or open when double-clicked."
-            Top             =   2235
-            Width           =   3660
-         End
-         Begin VB.ComboBox cmbDebug 
-            Height          =   315
-            ItemData        =   "frmPrefs.frx":16E1
-            Left            =   1530
-            List            =   "frmPrefs.frx":16E3
-            Style           =   2  'Dropdown List
-            TabIndex        =   54
-            ToolTipText     =   "Choose to set debug mode."
-            Top             =   -15
-            Width           =   2160
-         End
-         Begin VB.Label lblDebug 
-            Caption         =   "DblClick Command :"
-            Height          =   510
-            Index           =   1
-            Left            =   -15
-            TabIndex        =   63
-            Tag             =   "lblPrefixString"
-            Top             =   1155
-            Width           =   1545
-         End
-         Begin VB.Label lblConfigurationTab 
-            Caption         =   "Shift+double-clicking on the widget image will open this file. "
-            Height          =   375
-            Index           =   6
-            Left            =   1560
-            TabIndex        =   62
-            Top             =   2730
-            Width           =   3705
-         End
-         Begin VB.Label lblDebug 
-            Caption         =   "Default command to run when the gauge receives a double-click eg %SystemRoot%/system32/ncpa.cpl"
-            Height          =   570
-            Index           =   5
-            Left            =   1590
-            TabIndex        =   60
-            Tag             =   "lblSharedInputFileDesc"
-            Top             =   1605
-            Width           =   4410
-         End
-         Begin VB.Label lblDebug 
-            Caption         =   "Open File :"
-            Height          =   255
-            Index           =   4
-            Left            =   645
-            TabIndex        =   59
-            Tag             =   "lblSharedInputFile"
-            Top             =   2280
-            Width           =   1350
-         End
-         Begin VB.Label lblDebug 
-            Caption         =   "Turning on the debugging will provide extra information in the debug window.  *"
-            Height          =   495
-            Index           =   2
-            Left            =   1545
-            TabIndex        =   56
-            Tag             =   "lblAlarmSoundDesc"
-            Top             =   450
-            Width           =   4455
-         End
-         Begin VB.Label lblDebug 
-            Caption         =   "Debug :"
-            Height          =   375
-            Index           =   0
-            Left            =   855
-            TabIndex        =   55
-            Tag             =   "lblAlarmSound"
-            Top             =   45
-            Width           =   1740
          End
       End
    End
@@ -901,7 +920,7 @@ Begin VB.Form panzerPrefs
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   114
-         Text            =   "frmPrefs.frx":16E5
+         Text            =   "frmPrefs.frx":16E7
          Top             =   2205
          Width           =   8010
       End
@@ -1216,7 +1235,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgDevelopment 
          Height          =   600
          Left            =   150
-         Picture         =   "frmPrefs.frx":269C
+         Picture         =   "frmPrefs.frx":269E
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1224,7 +1243,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgDevelopmentClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":2C54
+         Picture         =   "frmPrefs.frx":2C56
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1324,7 +1343,7 @@ Begin VB.Form panzerPrefs
             Width           =   2400
          End
          Begin VB.Label lblFontsTab 
-            Caption         =   $"frmPrefs.frx":2FDA
+            Caption         =   $"frmPrefs.frx":2FDC
             Height          =   1710
             Index           =   0
             Left            =   1725
@@ -1410,7 +1429,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgAbout 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":3118
+         Picture         =   "frmPrefs.frx":311A
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1418,7 +1437,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgAboutClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":36A0
+         Picture         =   "frmPrefs.frx":36A2
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1443,7 +1462,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgConfig 
          Height          =   600
          Left            =   165
-         Picture         =   "frmPrefs.frx":3B8B
+         Picture         =   "frmPrefs.frx":3B8D
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1451,7 +1470,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgConfigClicked 
          Height          =   600
          Left            =   165
-         Picture         =   "frmPrefs.frx":416A
+         Picture         =   "frmPrefs.frx":416C
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1476,7 +1495,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgPosition 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":466F
+         Picture         =   "frmPrefs.frx":4671
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1484,7 +1503,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgPositionClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":4C40
+         Picture         =   "frmPrefs.frx":4C42
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1529,7 +1548,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgSounds 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":4FDE
+         Picture         =   "frmPrefs.frx":4FE0
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1537,7 +1556,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgSoundsClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":559D
+         Picture         =   "frmPrefs.frx":559F
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1577,7 +1596,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgWindow 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":5A6D
+         Picture         =   "frmPrefs.frx":5A6F
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1585,7 +1604,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgWindowClicked 
          Height          =   600
          Left            =   160
-         Picture         =   "frmPrefs.frx":5F37
+         Picture         =   "frmPrefs.frx":5F39
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1609,7 +1628,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgFonts 
          Height          =   600
          Left            =   180
-         Picture         =   "frmPrefs.frx":62E3
+         Picture         =   "frmPrefs.frx":62E5
          Stretch         =   -1  'True
          Top             =   195
          Width           =   600
@@ -1617,7 +1636,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgFontsClicked 
          Height          =   600
          Left            =   180
-         Picture         =   "frmPrefs.frx":6839
+         Picture         =   "frmPrefs.frx":683B
          Stretch         =   -1  'True
          Top             =   195
          Width           =   600
@@ -1632,7 +1651,7 @@ Begin VB.Form panzerPrefs
       Begin VB.Image imgGeneral 
          Height          =   600
          Left            =   180
-         Picture         =   "frmPrefs.frx":6CD2
+         Picture         =   "frmPrefs.frx":6CD4
          Stretch         =   -1  'True
          Top             =   225
          Width           =   600
@@ -1747,7 +1766,7 @@ Begin VB.Form panzerPrefs
                Width           =   720
             End
             Begin VB.Label lblWindowLevel 
-               Caption         =   $"frmPrefs.frx":713C
+               Caption         =   $"frmPrefs.frx":713E
                Height          =   975
                Index           =   1
                Left            =   855
@@ -2145,6 +2164,13 @@ Private gblAllowSizeChangeFlg As Boolean
 
 
 
+Private Sub btnLessCmbCurrentAdapter_Click()
+    cmbCurrentAdapter.Width = fraGeneralInner.Width * 0.465
+
+    btnMoreCmbCurrentAdapter.Visible = True
+    btnLessCmbCurrentAdapter.Visible = False
+End Sub
+
 ' ----------------------------------------------------------------
 ' Procedure Name: cmbCurrentAdapter_Click
 ' Purpose:
@@ -2174,9 +2200,29 @@ cmbCurrentAdapter_Click_Error:
 End Sub
 
 
+' ----------------------------------------------------------------
+' Procedure Name: btnMoreCmbCurrentAdapter_Click
+' Purpose:
+' Procedure Kind: Sub
+' Procedure Access: Private
+' Author: beededea
+' Date: 08/06/2024
+' ----------------------------------------------------------------
 Private Sub btnMoreCmbCurrentAdapter_Click()
-    cmbCurrentAdapter.Width = 7500
+    On Error GoTo btnMoreCmbCurrentAdapter_Click_Error
+    
+    cmbCurrentAdapter.Width = fraGeneralInner.Width * 0.7
+
     btnMoreCmbCurrentAdapter.Visible = False
+    btnLessCmbCurrentAdapter.Visible = True
+    
+    On Error GoTo 0
+    Exit Sub
+
+btnMoreCmbCurrentAdapter_Click_Error:
+
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure btnMoreCmbCurrentAdapter_Click, line " & Erl & "."
+
 End Sub
 
 ' ----------------------------------------------------------------
@@ -4762,6 +4808,7 @@ Public Sub setPrefsTooltips()
         cmbCurrentAdapter.ToolTipText = "Identify your network adapter beforehand using the network panel on your system's settings or the control panel."
         cmbNetworkTraffic.ToolTipText = "By default both IN and OUT traffic will be monitored, you can select just received bytes input or those sent by the network adapter, selected above."
         btnMoreCmbCurrentAdapter.ToolTipText = "click here to widen the network adapter list"
+        btnLessCmbCurrentAdapter.ToolTipText = "click here to narrow the network adapter list"
     
     Else
         imgConfig.ToolTipText = vbNullString
@@ -4839,6 +4886,7 @@ Public Sub setPrefsTooltips()
         cmbCurrentAdapter.ToolTipText = vbNullString
         cmbNetworkTraffic.ToolTipText = vbNullString
         btnMoreCmbCurrentAdapter.ToolTipText = vbNullString
+        btnLessCmbCurrentAdapter.ToolTipText = vbNullString
 
     End If
 
