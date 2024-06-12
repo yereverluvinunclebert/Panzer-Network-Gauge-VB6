@@ -70,10 +70,12 @@ I hope the snippet of code might be useful to a VB6-er doing the same.
  is new VB6 widgets with more functionality and then hopefully, conversion of 
  each to RADBasic/TwinBasic for future-proofing and 64bit-ness. 
 
-![menu01](https://github.com/yereverluvinunclebert/Panzer-CPU-Gauge-VB6/assets/2788342/45da67ae-8ec9-4730-a00d-e3c5a1db7519)
+![menu01](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/d20519a5-df1f-4968-b12f-74b3a9a8368c)
 
  This utility is one of a set of steampunk and dieselpunk widgets. That you can 
  find here on Deviantart: https://www.deviantart.com/yereverluvinuncleber/gallery
+
+ ![network-info](https://github.com/yereverluvinunclebert/Panzer-Network-Gauge-VB6/assets/2788342/cc02160f-443b-40fd-bc8a-d4c9bade2b32)
  
  I do hope you enjoy using this utility and others. Your own software 
  enhancements and contributions will be gratefully received if you choose to 
