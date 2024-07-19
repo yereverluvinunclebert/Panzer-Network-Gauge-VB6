@@ -293,7 +293,7 @@ Public Property Let thisAdapterName(ByVal newValue As String)
 
     If mThisAdapterName <> newValue Then mThisAdapterName = newValue Else Exit Property
     
-    Call Network_Usage_Percent
+    Call fNetwork_Usage_Percent
     
     On Error GoTo 0
     Exit Property
@@ -643,7 +643,7 @@ Private Sub tmrSampler_Timer()
             'Call getGblNetworkStats(bytes, maxBytes, percentageBandwidth)
         
             If mThisNetworkNo <> "9999" Then
-                NetworkPercent = Network_Usage_Percent
+                NetworkPercent = fNetwork_Usage_Percent
             Else
                 NetworkPercent = 0
             End If
@@ -709,7 +709,7 @@ Private Sub obtainNetworks()
     On Error GoTo obtainNetworks_Error
     
     If mThisNetworkNo <> "9999" Then
-        NetworkPercent = Network_Usage_Percent
+        NetworkPercent = fNetwork_Usage_Percent
     Else
         NetworkPercent = 0
     End If
@@ -736,26 +736,27 @@ End Sub
 ' Author: https://www.tek-tips.com/userinfo.cfm?member=Hypetia
 ' Date: 09/01/2024
 ' ----------------------------------------------------------------
-Private Function Network_Usage_Percent() As Single
+Private Function fNetwork_Usage_Percent() As Single
 
-    Dim percentageBandwidth As Integer: percentageBandwidth = 0
+    Dim percentageBandwidth As Single: percentageBandwidth = 0
     Dim maxBytes As Double: maxBytes = 0
     Dim bytes As Double: bytes = 0
     
-    On Error GoTo Network_Usage_Percent_Error
+    On Error GoTo fNetwork_Usage_Percent_Error
     
     maxBytes = 125000 * Val(PzGMaxSpeed)
 
-    Call getGblNetworkStats(bytes, maxBytes, gblPercentageBandwidth)
+    Call getGblNetworkStats(bytes, maxBytes, percentageBandwidth)
 
-    Network_Usage_Percent = gblPercentageBandwidth
+    gblPercentageBandwidth = percentageBandwidth
+    fNetwork_Usage_Percent = percentageBandwidth
      
     On Error GoTo 0
     Exit Function
 
-Network_Usage_Percent_Error:
+fNetwork_Usage_Percent_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Network_Usage_Percent, line " & Erl & "."
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure fNetwork_Usage_Percent, line " & Erl & "."
  
 End Function
 
