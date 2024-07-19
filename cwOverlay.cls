@@ -736,7 +736,7 @@ End Sub
 ' Author: https://www.tek-tips.com/userinfo.cfm?member=Hypetia
 ' Date: 09/01/2024
 ' ----------------------------------------------------------------
-Private Function Network_Usage_Percent() As Long
+Private Function Network_Usage_Percent() As Single
 
     Dim percentageBandwidth As Integer: percentageBandwidth = 0
     Dim maxBytes As Double: maxBytes = 0
@@ -746,9 +746,9 @@ Private Function Network_Usage_Percent() As Long
     
     maxBytes = 125000 * Val(PzGMaxSpeed)
 
-    Call getGblNetworkStats(bytes, maxBytes, percentageBandwidth)
+    Call getGblNetworkStats(bytes, maxBytes, gblPercentageBandwidth)
 
-    Network_Usage_Percent = percentageBandwidth
+    Network_Usage_Percent = gblPercentageBandwidth
      
     On Error GoTo 0
     Exit Function
@@ -756,7 +756,6 @@ Private Function Network_Usage_Percent() As Long
 Network_Usage_Percent_Error:
 
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure Network_Usage_Percent, line " & Erl & "."
-
  
 End Function
 

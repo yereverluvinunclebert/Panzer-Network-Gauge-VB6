@@ -62,7 +62,7 @@ TODO
 
 ' the same code to be added to the OHM widget
 ' the same code to be added to the Network widget
-' the same code to be added to the Wireless widget
+
 
 
 just IN

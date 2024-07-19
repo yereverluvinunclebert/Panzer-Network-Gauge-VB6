@@ -447,6 +447,7 @@ Public gblBandwidthArray() As Long
 
 Public gblNetworkPercentArray() As Integer
 Public gblNetworkCount As Integer
+Public gblPercentageBandwidth As Single
 '
 'Public m_objIpHelper As CIpHelper
 
@@ -2862,7 +2863,7 @@ End Sub
 ' Author: beededea
 ' Date: 13/01/2024
 ' ----------------------------------------------------------------
-Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, ByRef percentageBandwidth As Integer)
+Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, ByRef percentageBandwidth As Single)
 
     Dim strComputer As String: strComputer = vbNullString
     Dim WMIQuery As String: WMIQuery = vbNullString
