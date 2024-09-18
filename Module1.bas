@@ -2904,6 +2904,8 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     Set instances = objSWbemServices.ExecQuery(WMIQuery)
     
     thisNetworkCount = instances.Count
+    
+    If thisNetworkCount = 0 Then Exit Sub
 
     For Each instance In instances
 '        Debug.Print instance.Name 'or other property name
