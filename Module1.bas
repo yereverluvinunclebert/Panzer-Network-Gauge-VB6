@@ -2875,7 +2875,7 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     Dim bandWidth As Double: bandWidth = 0
     Dim newTimeStamp As Date: newTimeStamp = #1/1/2000 12:00:00 PM#
     Static oldTimeStamp As Date ' don't initialise static vars
-    Dim Interval As Long: Interval = 0
+    Dim Interval As Double: Interval = 0
     Dim ibytes As Double ': ibytes = 0
     Dim oBytes As Double ': oBytes = 0
 '    Dim ibps As Double: ibps = 0
