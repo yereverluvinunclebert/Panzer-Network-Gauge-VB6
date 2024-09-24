@@ -2890,9 +2890,16 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     'we use a variant to populate a static array
     Dim maxSpeedVArray As Variant
     
+    Dim strDBG As String: strDBG = vbNullString
+
     On Error GoTo getGblNetworkStats_Error
+        
+    strDBG = "WMI"
     
     strComputer = "."  ' localhost
+        
+    'using a variant we populate a static array in the old school way
+    maxSpeedVArray = Array(1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 100)
     
     'Get base WMI object, "." means computer name (local)
     Set objSWbemServices = GetObject("WINMGMTS:\\" & strComputer & "\ROOT\cimv2")
@@ -2906,6 +2913,8 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     thisNetworkCount = instances.Count
     
     If thisNetworkCount = 0 Then Exit Sub
+    
+    strDBG = "instances"
 
     For Each instance In instances
 '        Debug.Print instance.Name 'or other property name
@@ -2919,6 +2928,8 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
         oBytes = Val(instance.BytesSentPerSec)
     Next instance
     
+    strDBG = "iobytes zero"
+    
     If (ibytes < 0) Then
         ibytes = ibytes + 4294967296#
     End If
@@ -2930,6 +2941,8 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
         'debug catch
         ibytes = 0
     End If
+    
+    strDBG = "timestamp"
     
     newTimeStamp = Now
     
@@ -2949,29 +2962,36 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     End If
     
     oldTimeStamp = newTimeStamp
+    
+    strDBG = "old"
+    
     ibytesOld = ibytes
     obytesOld = oBytes
-    
-    'using a variant we populate a static array in the old school way
-    maxSpeedVArray = Array(1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 100)
         
     timerCount = 1
     timerCountModulo = 10
+    
+    strDBG = "iobytes addition"
+    
     bytes = ibps + obps
 
 '    Debug.Print (">>>>>>>>>>>>> ibps: " & ibps)
 '    Debug.Print (">>>>>>>>>>>>> obps: " & obps)
 
     If (bytes > maxBytes) Then
+        strDBG = "new maxbytes"
+        
         maxBytes = bytes
         ' get the matching speed from the array
         curSpeed = Str$(maxSpeedVArray(fMaximumSpeedIndex(maxSpeedVArray, maxBytes, UBound(maxSpeedVArray))))
         PzGMaxSpeed = curSpeed
-        Debug.Print ("---- 1 speeds ----")
-        Debug.Print ("maxBytes: " & Format(maxBytes, "0.00"))
-        Debug.Print ("Maximum Speed: " & PzGMaxSpeed)
-        Debug.Print ("Minimum Speed: " & maxSpeedVArray(PzGMinSpeed))
+'        Debug.Print ("---- 1 speeds ----")
+'        Debug.Print ("maxBytes: " & Format(maxBytes, "0.00"))
+'        Debug.Print ("Maximum Speed: " & PzGMaxSpeed)
+'        Debug.Print ("Minimum Speed: " & maxSpeedVArray(PzGMinSpeed))
     Else
+        strDBG = "check array"
+    
         timerCount = (timerCount + 1) Mod timerCountModulo
         If (timerCount = 0) Then
             ' get the matching speed from the array
@@ -2980,20 +3000,22 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
                 maxBytes = 125000 * maxSpeedVArray(speedIndex - 1)
                 curSpeed = Str$(maxSpeedVArray(speedIndex - 1))
                 PzGMaxSpeed = curSpeed
-                Debug.Print ("---- 2 speeds ----")
-                Debug.Print ("maxBytes: " & Format(maxBytes, "0.00"))
-                Debug.Print ("Maximum Speed: " & PzGMaxSpeed)
-                Debug.Print ("Minimum Speed: " & maxSpeedVArray(PzGMinSpeed))
+'                Debug.Print ("---- 2 speeds ----")
+'                Debug.Print ("maxBytes: " & Format(maxBytes, "0.00"))
+'                Debug.Print ("Maximum Speed: " & PzGMaxSpeed)
+'                Debug.Print ("Minimum Speed: " & maxSpeedVArray(PzGMinSpeed))
             Else
-                Debug.Print ("dummy line 299")
+'                Debug.Print ("dummy line 299")
             End If
         End If
     End If
+    
+    strDBG = "percentage"
 
     If bytes > 0 Then percentageBandwidth = Int(100 * bytes / maxBytes)
-    Debug.Print (">>>>>>>>>>>>> bytes: " & bytes)
-    Debug.Print (">>>>>>>>>>>>> maxBytes: " & maxBytes)
-    Debug.Print (">>>>>>>>>>>>> percentageBandwidth: " & percentageBandwidth)
+'    Debug.Print (">>>>>>>>>>>>> bytes: " & bytes)
+'    Debug.Print (">>>>>>>>>>>>> maxBytes: " & maxBytes)
+'    Debug.Print (">>>>>>>>>>>>> percentageBandwidth: " & percentageBandwidth)
 
 
     On Error GoTo 0
@@ -3001,7 +3023,7 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
 
 getGblNetworkStats_Error:
 
-    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure getGblNetworkStats, line " & Erl & "."
+    MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure getGblNetworkStats, line " & Erl & "." & " error point = " & strDBG
 
 End Sub
 
@@ -3018,7 +3040,7 @@ End Sub
 ' Author: beededea
 ' Date: 04/06/2024
 ' ----------------------------------------------------------------
-Function fMaximumSpeedIndex(ByRef maxSpeed As Variant, ByVal maxBytes As Long, ByVal maxSpeedUbound As Integer) As Long
+Function fMaximumSpeedIndex(ByRef maxSpeed As Variant, ByVal maxBytes As Double, ByVal maxSpeedUbound As Integer) As Long
 
     On Error GoTo fMaximumSpeedIndex_Error
     
