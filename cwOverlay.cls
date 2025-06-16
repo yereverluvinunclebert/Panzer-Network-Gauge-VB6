@@ -497,7 +497,7 @@ Private Sub W_Paint(CC As RC6.cCairoContext, ByVal xAbs As Single, ByVal yAbs As
     someOpacity = (Val(mThisOpacity) / 100) * 0.75
     
     txtNetworkPercent = CStr(Int(NetworkPercent))
-    txtNetworkCurrent = PzGMaxSpeed
+    txtNetworkCurrent = gblMaxSpeed
 
     For I = 0 To cCollOverlayImages.Count - 1 ' this is the ExcludedPaths collection populated in cfAlpha by duplicating collPSDNonUIElements.
       Arr = cCollOverlayImages.ItemByIndex(I)
@@ -744,7 +744,7 @@ Private Function fNetwork_Usage_Percent() As Single
     
     On Error GoTo fNetwork_Usage_Percent_Error
     
-    maxBytes = 125000 * Val(PzGMaxSpeed)
+    maxBytes = 125000 * Val(gblMaxSpeed)
 
     Call getGblNetworkStats(bytes, maxBytes, percentageBandwidth)
 
