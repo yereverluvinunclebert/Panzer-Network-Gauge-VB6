@@ -2164,17 +2164,11 @@ End Sub
 '
 Public Sub makeProgramPreferencesAvailable()
     On Error GoTo makeProgramPreferencesAvailable_Error
-'    Dim gblDebugFlg As Integer: gblDebugFlg = 1
     
-'    If gblDebugFlg = 1 Then
-'
-'        MsgBox "widgetPrefs.Visible " & widgetPrefs.Visible
-'        MsgBox "widgetPrefs.WindowState " & widgetPrefs.WindowState
-'
-'    End If
+    ' the sampler is stopped during the prefs
+    If overlayWidget.Ticking = True Then overlayWidget.Ticking = False
     
     If widgetPrefs.IsVisible = False Then
-        ' set the current position of the utility according to previously stored positions
     
         widgetPrefs.Visible = True
         widgetPrefs.Show  ' show it again
@@ -2184,12 +2178,15 @@ Public Sub makeProgramPreferencesAvailable()
             widgetPrefs.WindowState = vbNormal
         End If
         
+        ' set the current position of the utility according to previously stored positions
+        
         Call readPrefsPosition
         Call widgetPrefs.positionPrefsMonitor
         
     Else
         widgetPrefs.SetFocus
     End If
+
 
    On Error GoTo 0
    Exit Sub
@@ -2790,7 +2787,7 @@ End Sub
 ' Author: beededea
 ' Date: 13/01/2024
 ' ----------------------------------------------------------------
-Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, ByRef percentageBandwidth As Single)
+Public Sub getGblNetworkStats(ByRef Bytes As Double, ByRef maxBytes As Double, ByRef percentageBandwidth As Single)
 
     Dim strComputer As String: strComputer = vbNullString
     Dim WMIQuery As String: WMIQuery = vbNullString
@@ -2900,15 +2897,15 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     
     strDBG = "iobytes addition"
     
-    bytes = ibps + obps
+    Bytes = ibps + obps
 
 '    Debug.Print (">>>>>>>>>>>>> ibps: " & ibps)
 '    Debug.Print (">>>>>>>>>>>>> obps: " & obps)
 
-    If (bytes > maxBytes) Then
+    If (Bytes > maxBytes) Then
         strDBG = "new maxbytes"
         
-        maxBytes = bytes
+        maxBytes = Bytes
         ' get the matching speed from the array
         curSpeed = Str$(maxSpeedVArray(fMaximumSpeedIndex(maxSpeedVArray, maxBytes, UBound(maxSpeedVArray))))
         gblMaxSpeed = curSpeed
@@ -2923,7 +2920,7 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
         If (timerCount = 0) Then
             ' get the matching speed from the array
             speedIndex = fMaximumSpeedIndex(maxSpeedVArray(), maxBytes, UBound(maxSpeedVArray))
-            If ((speedIndex > gblMinSpeed) And (bytes < 125000 * maxSpeedVArray(speedIndex - 1))) Then
+            If ((speedIndex > gblMinSpeed) And (Bytes < 125000 * maxSpeedVArray(speedIndex - 1))) Then
                 maxBytes = 125000 * maxSpeedVArray(speedIndex - 1)
                 curSpeed = Str$(maxSpeedVArray(speedIndex - 1))
                 gblMaxSpeed = curSpeed
@@ -2939,7 +2936,7 @@ Public Sub getGblNetworkStats(ByRef bytes As Double, ByRef maxBytes As Double, B
     
     strDBG = "percentage"
 
-    If bytes > 0 Then percentageBandwidth = Int(100 * bytes / maxBytes)
+    If Bytes > 0 Then percentageBandwidth = Int(100 * Bytes / maxBytes)
 '    Debug.Print (">>>>>>>>>>>>> bytes: " & bytes)
 '    Debug.Print (">>>>>>>>>>>>> maxBytes: " & maxBytes)
 '    Debug.Print (">>>>>>>>>>>>> percentageBandwidth: " & percentageBandwidth)
