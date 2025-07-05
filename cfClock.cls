@@ -129,7 +129,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
     Const AlphaWithTaskbarEntry As Integer = 6
     Const AlphaNoTaskbarEntry As Integer = 7
   
-    Dim i As Long: i = 0
+    Dim I As Long: I = 0
     Dim W As cWidgetBase
     Dim someOpacity As Double: someOpacity = 0
     
@@ -145,24 +145,24 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
         pvtPSDWidth = .Width
         pvtPSDHeight = .Height       'store the original Psd-Pixel-Width/Height in Private vars (as the base from which we calculate the zoomed Form-Width/Height)
     
-        For i = 0 To .LayersCount - 1 ' loop through each of the Layers in the PSD
-            If .LayerByteSize(i) Then  ' check this is a true Alpha-Surface-Layer and not just a PSD layer 'group'
-                If .LayerAlphaPercent(i) > 0 Then ' only handles layers that have an opacity greater than 0 - need to note this for the future, this will cause a problem!
+        For I = 0 To .LayersCount - 1 ' loop through each of the Layers in the PSD
+            If .LayerByteSize(I) Then  ' check this is a true Alpha-Surface-Layer and not just a PSD layer 'group'
+                If .LayerAlphaPercent(I) > 0 Then ' only handles layers that have an opacity greater than 0 - need to note this for the future, this will cause a problem!
                     
                     'add each current Layer path and surface object into the global ImageList collection (using LayerPath as the ImageKey)
-                    Cairo.ImageList.AddSurface .LayerPath(i), .LayerSurface(i)
+                    Cairo.ImageList.AddSurface .LayerPath(I), .LayerSurface(I)
                     
                     ' check if each layer is in the layer exclude list, if it IS then we add it to a collection for non UI elements (ie. do not create Widgets)
-                    If collPSDNonUIElements.Exists(.LayerPath(i)) Then
+                    If collPSDNonUIElements.Exists(.LayerPath(I)) Then
                         
                         'we add layer info. (used later in cwOverlay) to the excluded layers that will form the overlay.
-                        collPSDNonUIElements(.LayerPath(i)) = Array(.LayerX(i), .LayerY(i), someOpacity)  'here we update the so far empty slots with the PSD-offsets
+                        collPSDNonUIElements(.LayerPath(I)) = Array(.LayerX(I), .LayerY(I), someOpacity)  'here we update the so far empty slots with the PSD-offsets
                                     
                     Else
                     
                         'create a widget instance for all layers in the PSD, excluding any layers entered into the exclude-list
                         
-                        Set W = gaugeForm.Widgets.Add(New cwAlphaImg, LCase$(.LayerPath(i)), .LayerX(i), .LayerY(i), .LayerWidth(i), .LayerHeight(i)).Widget
+                        Set W = gaugeForm.Widgets.Add(New cwAlphaImg, LCase$(.LayerPath(I)), .LayerX(I), .LayerY(I), .LayerWidth(I), .LayerHeight(I)).Widget
                         
                         W.ImageKey = W.Key 'W.Key equals ImageList-Key, set above - and LayerPath(i) at this point ... set it also as the ImageKey of our new created Widget
 
@@ -178,7 +178,7 @@ Public Sub InitFromPSD(ByRef PSD_FileNameOrByteArray As Variant)
                     End If
                 End If
             End If
-        Next i
+        Next I
     End With '<-- the Parser-instance will be destroyed here (freeing the Memory, the internal PSD-Layers have occupied)
         
     ' create a overlay here just for a single custom widget that contains just the animated elements.
@@ -241,7 +241,7 @@ Private Sub gaugeForm_BubblingEvent(ByRef Sender As Object, ByRef EventName As S
                      TTIconInfo, gblWidgetName & " Tick Button Help", , , , True
             Case "housing/switchfacesbutton"
                 If gblGaugeTooltips = "0" Then CreateToolTip gaugeForm.hWnd, "This button selects the next sensor from the list of sensors on your system.", _
-                     TTIconInfo, gblWidgetName & " Switch Faces Button Help", , , , True
+                     TTIconInfo, gblWidgetName & " Selsect Next Sensor Button Help", , , , True
             Case "housing/stopbutton"
                 Call stopbutton_mouseMove(Sender)
             Case "housing/startbutton"
