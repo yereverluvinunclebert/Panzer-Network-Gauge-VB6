@@ -63,15 +63,11 @@ TODO
 ' the same code to be added to the OHM widget
 ' the same code to be added to the Network widget
 
-
-
 just IN
 just OUT
 
 ' html help and images update
 ' chm help built
-
-' add second monitor - wip find cable!
 
 ' test usage of RC6 for monitor awareness - wip
 '      adjust Form Position on startup placing form onto Correct Monitor when placed off screen due to
@@ -84,10 +80,6 @@ just OUT
 ' adjustFormPositionToCorrectMonitor - licence form
 ' adjustFormPositionToCorrectMonitor - about form
 ' adjustFormPositionToCorrectMonitor - help form
-
-' END in unloadAllForms ' on 32bit Windows this causes a crash? - test.
-
-' setup2go create setup.exe
 
 ' -oOo-
 
