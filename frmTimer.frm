@@ -92,6 +92,8 @@ Attribute VB_Exposed = False
 Option Explicit
 
 
+Private Declare Sub Sleep Lib "kernel32.dll" (ByVal dwMilliseconds As Long)
+
 '---------------------------------------------------------------------------------------
 ' Procedure : revealWidgetTimer_Timer
 ' Author    : beededea
@@ -243,21 +245,10 @@ Private Sub sleepTimer_Timer()
         gblFGaugeAvailable = True
         ' Call ' screenWrite("system has just woken up from a sleep at " & Now() & vbCrLf & "updating digital gauges... ")
         
-        'overlayWidget.BaseDate = Now()
-        'gblTriggerDigitalGaugePopulation = True
+        ' pause the whole program for 3 seconds to allow WMI to wake up and do its thing.
+        Sleep 3000
         
         fGauge.gaugeForm.Refresh
-        
-'        If gblNumericDisplayRotation = "1" Then
-'            overlayWidget.TmrDigitRotatorTicking = True
-'        End If
-'
-'        '  clear any existing weekday indicator after a wake from sleep
-'        If fGauge.weekdayToggleEnabled = True Then
-'            Call hideDayOfWeek
-'            fGauge.gaugeForm.Widgets(fDayOfWeek).Widget.Alpha = 1
-'        End If
-        
         overlayWidget.Widget.Parent.Refresh
         
     End If
